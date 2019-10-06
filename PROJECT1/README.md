@@ -1,8 +1,8 @@
 Project 1 of subject fys_stk3155
 
 Group members:
-Johannes Barstad
-Olve Heitmann
+* Johannes Barstad
+* Olve Heitmann
 
 
 HOWTO:
