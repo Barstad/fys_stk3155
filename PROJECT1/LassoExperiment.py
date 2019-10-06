@@ -14,9 +14,6 @@ POLY = cfg.POLY
 
 
 if __name__ == "__main__":
-    # X, y, X_orig = generate_data(return_original=True)
-
-    # y = y + np.random.randn(len(X))
 
     X, y = load_data()
 
@@ -26,14 +23,13 @@ if __name__ == "__main__":
 
     results = test_different_polys_and_lambdas(X = X, y = y, model_class = LassoRegression, polys = polys, lambdas = lambdas)
     results.to_csv(cfg.RESULT_FOLDER.joinpath('lasso_polymial_results.csv'))
-    plot_3d_results(X = polys, Y = lambdas, results = results, save_as = "Lasso_lambda_poly_plot.png")
 
-    # Locating best model for 5 polonimals
-    # min_error_for_5_poly = results[results.polynomials == 5].test_mse.min()
-    # best_lambda_5_poly = results[(results.test_mse == min_error_for_5_poly) & (results.polynomials == POLY)].lamb.tolist()[0]
-    
+    plot_3d_results(X = polys, Y = lambdas, results = results, save_as = "test_Lasso_lambda_poly_plot.png", metric = "test_mse")
+    plot_3d_results(X = polys, Y = lambdas, results = results, save_as = "train_Lasso_lambda_poly_plot.png", metric = "train_mse")
+
+    # Fitting best model getting results for that model   
     best_lambda = results[results.test_mse == results.test_mse.min()].lamb.tolist()[0]
     best_poly = results[results.test_mse == results.test_mse.min()].polynomials.tolist()[0]
-    model = RidgeRegression(best_lambda)
+    model = LassoRegression(best_lambda)
     model_summary(model, add_polynomials(X, best_poly), y)
 

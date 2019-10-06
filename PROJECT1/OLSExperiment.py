@@ -34,13 +34,16 @@ def test_diffent_polynomials(X, y, polys = 10):
 
 
 if __name__ == "__main__":
-    X, y = load_data()
-
-    model = OLS()
     print("\n###   OLS  ### \n")
-    model_summary(model, add_polynomials(X, cfg.POLY), y)
 
+    X, y = load_data()
+    
+    model = OLS()
     # Running trials for different polynomials
     results = test_diffent_polynomials(X, y)
-    results.to_excel(cfg.RESULT_FOLDER.joinpath('OSL_polymial_results.xlsx'))
+    results.to_csv(cfg.RESULT_FOLDER.joinpath('OLS_polynomial_results.csv'))
+
+    best_poly = results[results.test_mse == results.test_mse.min()].polynomials.tolist()[0]
+
+    model_summary(model, add_polynomials(X, best_poly), y)
     bias_variance_plot(results.polynomials, results.train_mse, results.test_mse, save = True)

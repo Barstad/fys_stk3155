@@ -10,7 +10,7 @@ import pathlib
 
 def model_summary(model, X, y, normalize = True):
     # regular train test split
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
     if normalize:
         X_train, X_test, y_train, y_test = normalize_data(X_train, X_test, y_train, y_test)
     
