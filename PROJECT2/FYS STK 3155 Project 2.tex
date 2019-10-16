@@ -1,0 +1,137 @@
+\title{FYS-STK3155 - Project 2 Autumn 2019\cite{LinkReference1}}
+
+\author{Johannes A. Barstad,
+		Olve Heitmann}
+
+\newcommand{\abstractText}{\noindent
+
+}
+
+%%%%%%%%%%%%%%%%%
+% Configuration %
+%%%%%%%%%%%%%%%%%
+
+\documentclass[10pt, a4paper, twocolumn]{article}
+
+\usepackage[super,comma,sort&compress]{natbib}
+\usepackage{abstract}
+\renewcommand{\abstractnamefont}{\normalfont\bfseries}
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage{fullpage}
+\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+\usepackage{amsmath}
+\usepackage{csvsimple}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{float}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\DeclarePairedDelimiter\set\{\}
+
+%\begin{filecontents}{Ref4.bib}
+%
+%@misc{Project2Assignment,
+%  title        = "Project 2 Assignment Description",
+%  author       = "Department of Physics, University of Oslo, Norway",
+%  howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/Projects/2019/Project2/pdf/Project2.pdf}",
+%}
+%
+%@misc{GithubRepo,
+%	title = "Project2 github repository",
+%	author = "Barstad, Johannes A. and Heitmann, Olve",
+%	howpublished ="\url{https://github.com/Barstad/fys_stk3155/tree/master/PROJECT2}",
+%}
+%
+%@misc{EarthExplorer,
+%	title = "EarthExplorer",
+%	author = "USGS",
+%	howpublished = "\url{https://earthexplorer.usgs.gov/}",
+%}
+%
+%@misc{FrankesFunction,
+%	title = "Virtual Library of Simulation Experiments: Test Functions and Datasets. FRANKE'S FUNCTION",
+%	author = "Derek Bingham",
+%	howpublished = "\url{https://www.sfu.ca/~ssurjano/franke2d.html}",
+%}
+%
+%@misc{LectureNotesLogisticReg,
+%	title = "Data Analysis and Machine Learning: Logistic Regression",
+%	author = "N. van Wieringen, Wessel",
+%	howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/pub/LogReg/html/LogReg.html}",
+%}
+%
+%@misc{LectureNotesOptGradientMethods,
+%	title = "Data Analysis and Machine Learning: Logistic Regression",
+%	author = "N. van Wieringen, Wessel",
+%	howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/pub/LogReg/html/LogReg.html}",
+%}
+%
+%@misc{ScientificArticle,
+%	title = "The comparisons of data mining techniques for the predictive accuracy of probability of default of credit card clients",
+%	author = "I-Cheng, Yeh., Che-hui, Lien",
+%	howpublished = "\url{https://bradzzz.gitbooks.io/ga-seattle-dsi/content/dsi/dsi_05_classification_databases/2.1-lesson/assets/datasets/DefaultCreditCardClients_yeh_2009.pdf}",
+%}
+%
+%@book{ElementsOfStatLearning,
+%	author = "Hastie, Trevor, and Tibshirani, Robert, and H. Friedman, Jerome",
+%	title = "The Elements of Statistical Learning",
+%	year = "2008",
+%	publisher = "Springer",
+%}
+%
+%\end{filecontents}
+
+% Any configuration that should be done before the end of the preamble:
+\usepackage{hyperref}
+\usepackage{tikz}
+
+\pgfdeclareimage[width = 7 cm]{Franke}{franke2d.png}
+
+\hypersetup{colorlinks=true, urlcolor=blue, linkcolor=blue, citecolor=blue}
+
+\begin{document}
+
+%%%%%%%%%%%%
+% Abstract %
+%%%%%%%%%%%%
+
+\twocolumn[
+  \begin{@twocolumnfalse}
+    \maketitle
+    \begin{abstract}
+      \abstractText
+      \newline
+      \newline
+    \end{abstract}
+  \end{@twocolumnfalse}
+]
+
+%%%%%%%%%%%
+% Article %
+%%%%%%%%%%%
+
+\section{Introduction}
+\section{Theory}
+	\subsection{Logistic regression}
+		\myparagraph{The logistic function}
+			$$p(t) = \frac{1}{1+\exp}=\frac{\exp t}{1+\expt}$$
+		\myparagraph{Cost function}
+		\myparagraph{Design matrix}
+		\myparagraph{Gradient Descent Solver}
+		\myparagraph{Learning Rates}
+		\myparagraph{Newton Raphson Method}
+		
+		\myparagraph{Stochastic Gradient Descent}
+			with/ without mini batches
+		
+	\subsection{Perceptrons}
+	
+	The accuracy score for binary classification problems are given by
+		$$Accuracy=\frac{\sum_{i=1}^nI(t_i=y_i)}{n}$$
+	where $t_i$ is the guessed target, $y_i$ $I$ is the indicator function, equaling $1$ if $t_i=y_i$ and equaling $0$ otherwise.
+	As we can see, a perfect classifier will have an accuracy score of $1$, while a classifier that predicts every target wrong will have an accuracy score of $0$. It also follows that a classifier that is correct exactly half of the time will have an accuracy score of $0.5$, making interpretation easy.
