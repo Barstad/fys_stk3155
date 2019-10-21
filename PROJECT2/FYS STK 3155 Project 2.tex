@@ -53,6 +53,12 @@
 %	howpublished = "\url{https://earthexplorer.usgs.gov/}",
 %}
 %
+%@misc{UCImlRepoCCdata,
+%	title = "UCI Machine Learning Repository - Default of Credit Card Clients Data Set",
+%	author = "USGS",
+%	howpublished = "\url{https://earthexplorer.usgs.gov/}",
+%}
+%
 %@misc{FrankesFunction,
 %	title = "Virtual Library of Simulation Experiments: Test Functions and Datasets. FRANKE'S FUNCTION",
 %	author = "Derek Bingham",
@@ -66,9 +72,15 @@
 %}
 %
 %@misc{LectureNotesOptGradientMethods,
-%	title = "Data Analysis and Machine Learning: Logistic Regression",
+%	title = "Data Analysis and Machine Learning Lectures: Optimization and Gradient Methods",
 %	author = "N. van Wieringen, Wessel",
-%	howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/pub/LogReg/html/LogReg.html}",
+%	howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/pub/Splines/html/._Splines-bs000.html}",
+%}
+%
+%@misc{LectureNotesOptGradientMethods,
+%	title = "Data Analysis and Machine Learning: Neural networks, from the simple perceptron to deep learning",
+%	author = "N. van Wieringen, Wessel",
+%	howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/pub/NeuralNet/html/NeuralNet-bs.html}",
 %}
 %
 %@misc{ScientificArticle,
@@ -115,12 +127,47 @@
 % Article %
 %%%%%%%%%%%
 
+%% Den andre scientifice artiklen og deres resultater, inkl reprodusere log reg analysen deres.
+%% Standard gradient descent med given learning rate (hvordan velge given?), Newton Raphson metoden
+%% Minibatches?
+%% sammenligne med skl for log reg - hvordan føre
+%% Feed forward neural network
+
 \section{Introduction}
 \section{Theory}
-	\subsection{Logistic regression}
-		\myparagraph{The logistic function}
+	\subsection{On classification problems}
+		Classification problems, as opposed to regression, are concerned with taking on the form of discrete variables (i.e. categories). The perhaps most common, and definitely simplest classification problem, is the \emph{binary classification problem}, where we have two possible outcomes. It is here common to encode the two possible outcomes as
+			$$ y = \begin{bmatrix} 0 &\mathrm{outcome 1} \\ 1 & \mathrm{outcome 2} \end{bmatrix} $$
+		In the practical application part of this project we will study the binary case, namely credit card client defaults (two possible outcomes, the client ended up defaulting or the client did not end up defaulting) with a dataset from UCI's Machine Learning Repository \cite{UCImlRepoCCdata}. \\\\
+		
+		In general however, the problem can be described as follows: We aim to study the case where the dependent variables (i.e. the responses or outcomes) are discrete and only can take on value from $k = 0,\dots,K-1$ --- i.e. $K$ classes. We aim to predict the output classes based on \emph{the design matrix} $\mathbf{\hat{X}} \in \mathbb{R}^{n\times p}$. The design matrix consists of $n$-samples, where each contain data on $p$ features (predictors).
+		
+	\myparagraph{On the use of regressions techniques in classification}
+		One way to employ regressions techniques in classification problems is to have a sign function for mapping the output of the regressor to the discrete values in our list of possible outcomes (e.g. for the binary classification problem to $\{0,1\}$). An example of such a sign function could be $f(s_i)=sign(s_i)=1$ if $s_i\geq 0$ and $0$ otherwise. This approach is what historically has been called \emph{the perceptron model} in machine learning literature.\\\\
+		
+		Another way to use regression techniques to solve and describe classification problems is to interpret the output of the regression model as a \emph{probability} of a given category. This can be extremely useful in real world applications where we are interested in the expected value of some variable that \emph{depends} on the outcome of the problem we are trying to solve. One example of this could be a banks expected loss on credit debts over a given period, which would be given by $\mathit{probability of loss}\times\mathit{loss}$ (assuming "binary loss" --- i.e. you either default all the money you owe, or nothing at all).\\
+		This approach to using regression techniques in classification problems are sometimes referred to as a "soft" classifier --- we will study one example of this type of classifier, the \emph{logistic regression}. 
+		
+	\subsection{The Sigmoid function}
+		The logit function
 			$$p(t) = \frac{1}{1+\exp}=\frac{\exp t}{1+\expt}$$
+		note that $1-p(t)=p(-t)$
+		
+		The sigmoid function (or the logistic curve) is a
+		function that takes any real number, z, and outputs a number (0,1).
+		It is useful in neural networks for assigning weights on a relative scale.
+		The value z is the weighted sum of parameters involved in the learning algorithm.
+
+	\subsection{Maximum Likelihood}
+		aim at maximizing the probability of seeing the observed data
+		
+	\subsection{Logistic regression}
+		$$\log{\frac{p(\hat{\beta}\hat{x})}{1-p(\hat{\beta}\hat{x})}}=\beta_0+\beta_1x_1+\beta_2\x2+\dots\beta_px_p$$
+		
+		$$p(\hat{\beta}\hat{x}) = \frac{\exp{\beta_0+\beta_1x_1+\beta_2\x2+\dots\beta_px_p}}{1+\exp{\beta_0+\beta_1x_1+\beta_2\x2+\dots\beta_px_p}}$$
+
 		\myparagraph{Cost function}
+			The minimization of this cost function leads to a non-linear equation in the parameters $\hat{\beta}$. The optimization procedure thus calls for the use of \emph{gradient descent methods}.
 		\myparagraph{Design matrix}
 		\myparagraph{Gradient Descent Solver}
 		\myparagraph{Learning Rates}
@@ -135,3 +182,25 @@
 		$$Accuracy=\frac{\sum_{i=1}^nI(t_i=y_i)}{n}$$
 	where $t_i$ is the guessed target, $y_i$ $I$ is the indicator function, equaling $1$ if $t_i=y_i$ and equaling $0$ otherwise.
 	As we can see, a perfect classifier will have an accuracy score of $1$, while a classifier that predicts every target wrong will have an accuracy score of $0$. It also follows that a classifier that is correct exactly half of the time will have an accuracy score of $0.5$, making interpretation easy.
+	\subsection{On different types of datasets}
+		\myparagraph{Crossectional data}
+		\myparagraph{Timeseries data}
+		\myparagraph{Panel data}
+\section{Datasets}
+	\subsection{Default of credit card clients}
+		In the classification part of the project we will study a cross sectional dataset containing credit card clients who either have or have not defaulted. The time horizon is one month from observation of the proposed explanation the time of obserThe dataset were published 
+		\begin{table}
+			\caption{Default of credit card clients attribute information}
+			\begin{tabular}{@{}lll@{}} % mulige problemer i denne linjen
+				\toprule
+				Explanatory variable & Explanation \\ \midrule
+				X_1  & \text{Amount of the given credit (NT dollar): it includes both the individual consumer credit and his/her family (supplementary) credit.}\\
+				X_2 & Gender (1 = male; 2 = female). \\
+				X_3 & Education (1 = graduate school; 2 = university; 3 = high school; 4 = others).\\
+				X_4 & Marital status (1 = married; 2 = single; 3 = others).\\
+				X_5 & Age (year).\\
+				X_6 - X_{11} & History of past payment. We tracked the past monthly payment records (from April to September, 2005) as follows: X6 = the repayment status in September, 2005; X7 = the repayment status in August, 2005; . . .;X11 = the repayment status in April, 2005. The measurement scale for the repayment status is: -1 = pay duly; 1 = payment delay for one month; 2 = payment delay for two months; . . .; 8 = payment delay for eight months; 9 = payment delay for nine months and above.\\
+				X_{12} - X_{17} & Amount of bill statement (NT dollar). X12 = amount of bill statement in September, 2005; X13 = amount of bill statement in August, 2005; . . .; X17 = amount of bill statement in April, 2005.\\
+				X_{18} - X_{23} & Amount of previous payment (NT dollar). X18 = amount paid in September, 2005; X19 = amount paid in August, 2005; . . .;X23 = amount paid in April, 2005.\\ \bottomrule
+			\end{tabular}
+		\end{table}
