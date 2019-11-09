@@ -22,19 +22,20 @@ def relu_backward(Z):
 # Cost functions and derivatives
 
 def mse_loss(pred, actual):
+    assert pred.shape == actual.shape, "Shape mismatch"
     return 1/2.0 * np.mean(np.square(pred - actual))
 
 def mse_backward(pred, actual):
-    return (pred - actual.T)
+    assert pred.shape == actual.shape, "Shape mismatch"
+    return (pred - actual)
 
 def logistic_loss(pred, actual):
-    Y_hat, Y = pred, actual
-    m = Y_hat.shape[1]
-    cost = -1 / m * (np.dot(Y, np.log(Y_hat).T) + np.dot(1 - Y, np.log(1 - Y_hat).T))
-    return np.squeeze(cost)
+    assert pred.shape == actual.shape, f"Shape mismatch. Pred shape : {pred.shape}. Actual shape : {actual.shape}"
+    return (-actual * np.log(pred) - (1 - actual) * np.log(1 - pred)).mean()
 
 def logistic_backward(pred ,actual):
-    Y_hat, Y = pred, actual.T
+    assert pred.shape == actual.shape, "Shape mismatch"
+    Y_hat, Y = pred, actual
     return - (np.divide(Y, Y_hat) - np.divide(1 - Y, 1 - Y_hat))
 
 
@@ -132,7 +133,8 @@ class Layer():
         
         # Output layer
         else:
-            self.delta = D_COSTS[cost_function](self.A, y) * D_ACTIVATIONS[self.activation](self.Z)
+            # print(self.A.shape, y.shape, self.Z.shape)
+            self.delta = D_COSTS[cost_function](self.A, y.T) * D_ACTIVATIONS[self.activation](self.Z)
             if self.in_connection:
                 self.dW = self.delta.dot(self.in_connection.A.T)
             else:
@@ -143,7 +145,7 @@ class Layer():
 
 
 class NeuralNetwork():
-    def __init__(self, X, y, nodes, activations, cost_function):
+    def __init__(self, X, y, validation_data, nodes, activations, cost_function):
         """
         X : numpy array
             shape : (num_examples, num_features)
@@ -165,8 +167,12 @@ class NeuralNetwork():
             nn = NeuralNetwork(X, y, [10,10,1], ['sigmoid', 'sigmoid', 'linear'], "mse")
 
         """
+
+        assert len(y.shape) > 1, f"y has shape {y.shape}. Need more dimensions."
         self.X = X
         self.y = y
+
+        self.validation_data = validation_data
         self.nodes = nodes
         self.activations = activations
         self.cost_function = cost_function
@@ -190,7 +196,7 @@ class NeuralNetwork():
                 else:
                     layer =  layer.connect(self.layers[i-1], None)
 
-    def train(self, batch_size, epochs, learning_rate):
+    def train(self, batch_size, epochs, learning_rate, l2_lambda = 0):
         N = len(self.X)
         
         iterations = int(np.ceil(N / batch_size))
@@ -211,17 +217,27 @@ class NeuralNetwork():
                 
                 # Weight update
                 for layer in self.layers:
-                    layer.W -= learning_rate * layer.dW
+                    layer.W -= learning_rate * layer.dW - learning_rate * l2_lambda * layer.W / X.shape[0]
                     layer.b -= learning_rate * layer.db
                     
             if (epochs > 10):
                 if (epoch%(epochs//10) == 0):
                     print(f"EPOCH {epoch} :")
-                    print(f"{self.cost_function} :", COSTS[self.cost_function](self.layers[-1].A, y.T))
+                    print(f"{self.cost_function} cost:", COSTS[self.cost_function](self.predict(X), y))
+                    val_pred = self.predict(self.validation_data[0])
+                    print(f"validaltion {self.cost_function} cost:", COSTS[self.cost_function](val_pred, self.validation_data[1]))
                     print("\n")
+            else:
+                print(f"EPOCH {epoch} :")
+                print(f"{self.cost_function} :", COSTS[self.cost_function](self.predict(X), y))
+                val_pred = self.predict(self.validation_data[0])
+                print(f"validaltion {self.cost_function} cost:", COSTS[self.cost_function](val_pred, self.validation_data[1]))
+                print("\n")
 
         print(f"EPOCH {epoch} :")
-        print(f"{self.cost_function} :", COSTS[self.cost_function](self.layers[-1].A, y.T))
+        print(f"{self.cost_function} :", COSTS[self.cost_function](self.predict(X), y))
+        val_pred = self.predict(self.validation_data[0])
+        print(f"validaltion {self.cost_function} cost:", COSTS[self.cost_function](val_pred, self.validation_data[1]))
 
     def predict(self, X):
         for layer in self.layers:
