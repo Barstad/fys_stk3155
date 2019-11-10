@@ -17,7 +17,7 @@ Notebook with results and sample runs in two notebooks:
 - Neural network run in NN_Experiment.ipynb
 
 Latex file containing the final report:
-- fys_stk3155 Project 2.tex
+- FYS STK 3155 Project 2.tex
 Pdf file containing the final report:
-- fys_stk3155 Project 2.pdf
+- FYS STK 3155 Project 2.pdf
 
