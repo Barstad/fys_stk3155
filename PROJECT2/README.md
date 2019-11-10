@@ -18,6 +18,7 @@ Notebook with results and sample runs in two notebooks:
 
 Latex file containing the final report:
 - FYS STK 3155 Project 2.tex
+
 Pdf file containing the final report:
 - FYS STK 3155 Project 2.pdf
 
