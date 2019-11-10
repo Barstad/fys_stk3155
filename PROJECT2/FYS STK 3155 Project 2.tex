@@ -4,7 +4,7 @@
 		Olve Heitmann}
 
 \newcommand{\abstractText}{\noindent
-In this paper we discuss and implement logistic regression (LR), as well as artifiscial neural networks (ANNs) for use in regression as well as classification problems. The LR and ANN models are trained using batch gradient descent, combined with backpropagation for the ANNs. To test our models we use simulated Franke Function data for regression, and Credit Card data from I-Cheng, Yeh. and Che-hui, Lien's article \emph{The comparisons of data mining techniques for the predictive accuracy of probability of default of credit card clients} \cite{ScientificArticle} from 2008. For the simulated Franke Function data our results neural network are able to reproduce results similar to those obtained by OLS and manual feature engineering (polynomials and interaction terms)\cite{Project1} with a simple two-dimensional input. For the credit card data our results are similar for both LR and ANNs to those obtained by I-Cheng and Che-hui.
+In this paper we discuss and implement logistic regression (LR), as well as artificial neural networks (ANNs) for use in regression as well as classification problems. The LR and ANN models are trained using batch gradient descent, combined with backpropagation for the ANNs. To test our models we use simulated Franke Function data for regression, and Credit Card data from I-Cheng, Yeh. and Che-hui, Lien's article \emph{The comparisons of data mining techniques for the predictive accuracy of probability of default of credit card clients} \cite{ScientificArticle} from 2008. For the simulated Franke Function data our results neural network are able to reproduce results similar to those obtained by OLS and manual feature engineering (polynomials and interaction terms)\cite{Project1} with a simple two-dimensional input. For the credit card data our results are similar for both LR and ANNs to those obtained by I-Cheng and Che-hui.
 }
 
 %%%%%%%%%%%%%%%%%
@@ -173,7 +173,7 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 
 \section{Introduction}
 	The main aim of this project was to study classification and regressions problems, including implementing Logistic Regression (LR) as well as implementing and training a Multi Layer Perceptron (MLP) Neural Network using gradient descent and backpropagation. We then apply our models for i) predicting outputs from simulated data using the Franke Function, as well as ii) Predicting credit card defaults.\\ 
-	Dataset i) is our main test subject for the regression task. Our goal here was to study whether or not our MLP were able to reproduce and/ or improve upon the results we obtained in project 1 through manual feature engineering (i.e. the creation of polynoms and interaction terms) simply by taking in a two-dimensional input.\\\\
+	Dataset i) is our main test subject for the regression task. Our goal here was to study whether or not our MLP were able to reproduce and/ or improve upon the results we obtained in project 1 through manual feature engineering (i.e. the creation of polynomials and interaction terms) simply by taking in a two-dimensional input.\\\\
 	Our study on credit card defaults builds on the work of I-Cheng Yeh and Che-hui Lien\cite{ScientificArticle}, which outlines a comparison of various data mining techniques for predicting credit card defaults in the Taiwanese credit card market. I-Cheng and Che-hui's paper focus on a consumer payment dataset from October, 2005, retrieved from an "important bank in Taiwan" \cite{ScientificArticle}, as well as reviewing other relevant literature on credit card customers. Our focus here was to test whether or not we could obtain similar results for our implemented LR and MLP models in a classification task.\\\\
 	To justify our various choices made during the implementation we start of by discussing classification, LR and ANNs in a general theory section. For a general discussion on regression techniques, see our first project\cite{Project1}.
 \section{Theory}
@@ -249,7 +249,7 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 			and for the classification problem we apply \emph{logistic loss}
 				$$C = -\frac{1}{n} \sum_x \left[y \ln a + (1-y ) \ln (1-a) \right]$$
 			The quadratic loss is a natural choice of cost function when handling regression problems where the range of the target variable is potentially $(-\inf, \inf)$. It stems from the maximum likelihood estimation based on the normal distribution, when samples are assumed IID. Intuitively it also seems like a natural choice as it is putting a larger penalty to larger deviations and is symmetric in its penalty, suggesting that both positive and negative deviations are equally important. Which is suitable in this situation.\\\\ 
-			The logistic loss is a natural choice when our targets range takes on a value in $(0,1)$. It stems from Bernoulli maximum likelihood estimation. Since the $\ln(a)$ is not defined when $a = 0$, in practice one often ads an additional small term to a in order to prevent this effect from impacting the general implementation. We can also easily see that inserting a small value of a (close to $0$) while $y = $1 will return a large value due to $\ln(a)$ will be large and negative. And equally when $y = 0$, and a is close to $1$, $\ln(1-a)$ will be large and negative. While when they are close, the value is small. Thus the penalty grows exponentially as the deviation from the truth grows, which is desirable for a cost function. To combat the negative values from the logarithmic terms, we also add a minus sign in front, as we are minimizing this expression. 						
+			The logistic loss is a natural choice when our targets range takes on a value in $(0,1)$. It stems from Bernoulli maximum likelihood estimation. Since the $\ln(a)$ is not defined when $a = 0$, in practice one often ads an additional small term to a in order to prevent this effect from impacting the general implementation. We can also easily see that inserting a small value of a (close to $0$) while $y = $1 will return a large value due to $\ln(a)$ will be large and negative. And equally when $y = 0$, and $a$ is close to $1$, $\ln(1-a)$ will be large and negative. While when they are close, the value is small. Thus the penalty grows exponentially as the deviation from the truth grows, which is desirable for a cost function. To combat the negative values from the logarithmic terms, we also add a minus sign in front, as we are minimizing this expression. 						
 				
 		\subsubsection{Gradient descent and minimizing cost functions}
 			The fundamental idea of the gradient descent is that a function $F(\vec{x})$ decreases fastest if one moves $\vec{x}$ in the direction of the negative gradient:
@@ -288,7 +288,7 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 				$$C = \frac{1}{n}\sum_i^n C_i$$
 				Backpropagation let us compute the partial derivatives $\frac{\partial C_i}{\partial \vec{w}}$ and $\frac{\partial C_i}{\partial b}$ for a single training sample. We then need to "recover" $\frac{\partial C}{\partial \vec{w}}$ and $\frac{\partial C}{\partial b}$ by averaging over the training samples --- if this is not possible due to the cost function we choose, backpropagation will not give good approximations to the optimum parameter values.
 				\item \textbf{Cost can be written as a function of the outputs from the neural network}
-				
+					As the parameters we are able to affect (weights, biases) only have a direct effect on the outputs from the neural network, the cost function needs to be able to be written as a function of these outputs.
 				%		 		then we use s⊙t to denote the elementwise product of the two vectorsHadamard product or Schur product.
 			\end{enumerate}	
 			
@@ -362,6 +362,8 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 					\item $b^l\rightarrow b^l-\frac{n}{m}\sum_x^n\delta^{(x,l-1)}$
 				\end{itemize}
 			\end{enumerate}
+			\myparagraph{Example: NN Loss development during training, classification}
+				\pgfuseimage{NNlossDevTraining}
 			To implement the full stochastic gradient descent algorithm we also create an outer loop to generate mini-batches of training samples, as well as an outer loop stepping through the multiple epochs of training
 		\subsubsection{Regularization in Neural Networks}
 			To prevent overfitting and stabilizing the network we apply \emph{regularization} (for a more in-depth discussion of regularization, see our first project, project 1\cite{Project1}). This is done by adding a regularization term $\frac{\lambda}{2n}\sum_w w^2$ to the cost function $C_0$:
@@ -394,6 +396,8 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 		\subsubsection{Regression on the Franke Function data}
 		\myparagraph{ANN Hyperparameter search}
 			\pgfuseimage{NNparameterSearchFRANKE}
+		General remark on hyperparameter optimization for neural networks: Since neural network models tends to have a large set of hyperparameters, from number of neurons, regularization, learning rate etc, and take a fairly long time to train, hyperparameter tuning can take a long time. Possible remedies to this is to use multiple computers in a cloud environment and train many networks in parallel across different configurations. With domain expertise, there is also possible to limit the search space.\\\\
+		We use a grid search approach to determine the hyperparameter settings.\\ For the Franke data, we see that a learning rate of $0.1$ to $0.01$ performs best. There is little difference in the error for changes in lambda, but the best result is achieved at $\lambda$ $0.1$.
 		\begin{table}[H]
 			\caption{ANN Results compared to Project 1 OLS \cite{Project1}}
 			\begin{tabular}{@{}lll@{}}
@@ -405,11 +409,14 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 		\end{table}
 
 		\subsubsection{Classification on the Credit Card data}
+			We see that the ANN performes well on the credit data, in line with the results from I-Cheng and Che-hui's paper\cite{ScientificArticle}. The lift is substantial compared to the baseline, as seen from the lift charts. We see good performance in both test and train, suggesting a good generalization to the underlying data generating process. The good lift ensures that the credit company can reduce their risk at a relatively low cost, by using the model to filter out the risky customers, while only filtering out a small number of potent customers in the process.\\\\
+			For the case of logistic regression, we see a reduction in performance, and thus a higher cost in terms of lost potent customers related to the process of filtering out customers with high risk.\\
+			We use the same approach for model selection as with the Franke data to select the hyperparameters for the models.
 			\myparagraph{LR Lift Chart for Test-data}
 			\pgfuseimage{LRliftTest}
 			\myparagraph{LR Hyperparameter search}
 			\pgfuseimage{LRparameterSearch}
-			\myparagraph{NN Lift Chart for Test-data}
+			\myparagraph{ANN Lift Chart for Test-data}
 			\pgfuseimage{NNliftTest}
 			\myparagraph{ANN Hyperparameter search}
 			\pgfuseimage{NNparameterSearch}
@@ -495,13 +502,12 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 		\myparagraph{LR Regularization effect on weight norm, classification}
 		\pgfuseimage{LRregWeightNorm}
 		
-		\myparagraph{NN Lift Chart for Train-data, classification}
+		\myparagraph{ANN Lift Chart for Train-data, classification}
 		\pgfuseimage{NNliftTrain}
-		\myparagraph{NN Loss development during training, classification}
-		\pgfuseimage{NNlossDevTraining}
-		\myparagraph{NN Regularization effect on area ratio, classification}
+
+		\myparagraph{ANN Regularization effect on area ratio, classification}
 		\pgfuseimage{NNregAreaRatio}
-		\myparagraph{NN Regularization effect on weight norm, classification}
+		\myparagraph{ANN Regularization effect on weight norm, classification}
 		\pgfuseimage{NNregWeightNorm}		
 	
 \nocite{*}

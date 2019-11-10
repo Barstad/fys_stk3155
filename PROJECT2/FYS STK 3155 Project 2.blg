@@ -1,0 +1,38 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: FYS STK 3155 Project 2.aux
+White space in argument---line 75 of file FYS STK 3155 Project 2.aux
+ : \citation{Scientific
+ :                      Article}
+I'm skipping whatever remains of this command
+White space in argument---line 76 of file FYS STK 3155 Project 2.aux
+ : \citation{Scientific
+ :                      Article}
+I'm skipping whatever remains of this command
+The style file: plain.bst
+Database file #1: Ref8.bib
+I was expecting a `,' or a `}'---line 69 of file Ref8.bib
+ :  
+ :  howpublished = "Business Weekly, 24-27}",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 76 of file Ref8.bib
+ :  
+ :  howpublished = "\url{https://web.stanford.edu/class/cs109/reader/11\%20Parameter\%20Estimation.pdf}}",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Too many commas in name 1 of "I-Cheng, Yeh., Che-hui, Lien" for entry ScientificArticle
+while executing---line 1049 of file plain.bst
+Name 1 in "Hastie, Trevor, and Tibshirani, Robert, and H. Friedman, Jerome" has a comma at the end for entry ElementsOfStatLearning
+while executing---line 1049 of file plain.bst
+Name 2 in "Hastie, Trevor, and Tibshirani, Robert, and H. Friedman, Jerome" has a comma at the end for entry ElementsOfStatLearning
+while executing---line 1049 of file plain.bst
+Name 1 in "Piech, C., and Sahami, M." has a comma at the end for entry Stanford11
+while executing---line 1049 of file plain.bst
+Name 1 in "Hastie, Trevor, and Tibshirani, Robert, and H. Friedman, Jerome" has a comma at the end for entry ElementsOfStatLearning
+while executing---line 1090 of file plain.bst
+Name 2 in "Hastie, Trevor, and Tibshirani, Robert, and H. Friedman, Jerome" has a comma at the end for entry ElementsOfStatLearning
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "I-Cheng, Yeh., Che-hui, Lien" for entry ScientificArticle
+while executing---line 1090 of file plain.bst
+Name 1 in "Piech, C., and Sahami, M." has a comma at the end for entry Stanford11
+while executing---line 1090 of file plain.bst
+(There were 12 error messages)

@@ -1,0 +1,81 @@
+\begin{thebibliography}{10}
+
+\bibitem{Project1}
+Johannes~A. Barstad and Olve Heitmann.
+\newblock Project1 github repository.
+\newblock \url{https://github.com/Barstad/fys_stk3155/tree/master/PROJECT1}.
+
+\bibitem{GithubRepo}
+Johannes~A. Barstad and Olve Heitmann.
+\newblock Project2 github repository.
+\newblock \url{https://github.com/Barstad/fys_stk3155/tree/master/PROJECT2}.
+
+\bibitem{FrankesFunction}
+Derek Bingham.
+\newblock Virtual library of simulation experiments: Test functions and
+  datasets. franke's function.
+\newblock \url{https://www.sfu.ca/~ssurjano/franke2d.html}.
+
+\bibitem{TaiwanCC2006}
+M.~Chou.
+\newblock Cash and credit card crisis in taiwan, 2006.
+
+\bibitem{Project2Assignment}
+Norway Department~of Physics, University of~Oslo.
+\newblock Project 2 assignment description.
+\newblock
+  \url{https://compphysics.github.io/MachineLearning/doc/Projects/2019/Project2/pdf/Project2.pdf}.
+
+\bibitem{ElementsOfStatLearning}
+Trevor Hastie, Robert Tibshirani, and Jerome H.~Friedman.
+\newblock {\em The Elements of Statistical Learning}.
+\newblock Springer, 2008.
+
+\bibitem{LectureNotesOptGradientMethods}
+Morten Hjorth-Jensen.
+\newblock Data analysis and machine learning lectures: Optimization and
+  gradient methods.
+\newblock
+  \url{https://compphysics.github.io/MachineLearning/doc/pub/Splines/html/._Splines-bs000.html}.
+
+\bibitem{LectureNotesLogisticReg}
+Morten Hjorth-Jensen.
+\newblock Data analysis and machine learning: Logistic regression.
+\newblock
+  \url{https://compphysics.github.io/MachineLearning/doc/pub/LogReg/html/LogReg.html}.
+
+\bibitem{LectureNotesNNDL}
+Morten Hjorth-Jensen.
+\newblock Data analysis and machine learning: Neural networks, from the simple
+  perceptron to deep learning.
+\newblock
+  \url{https://compphysics.github.io/MachineLearning/doc/pub/NeuralNet/html/NeuralNet-bs.html}.
+
+\bibitem{ScientificArticle}
+Che-hui~Lien I-Cheng, Yeh.
+\newblock The comparisons of data mining techniques for the predictive accuracy
+  of probability of default of credit card clients.
+\newblock
+  \url{https://bradzzz.gitbooks.io/ga-seattle-dsi/content/dsi/dsi_05_classification_databases/2.1-lesson/assets/datasets/DefaultCreditCardClients_yeh_2009.pdf}.
+
+\bibitem{NNandDL}
+Michael~A. Nielsen.
+\newblock {\em Neural Networks and Deep Learning}.
+\newblock Determination Press, 2015.
+
+\bibitem{Stanford11}
+C.~Piech and M.~Sahami.
+\newblock 11. parameter estimation, 2017.
+
+\bibitem{EarthExplorer}
+USGS.
+\newblock Earthexplorer.
+\newblock \url{https://earthexplorer.usgs.gov/}.
+
+\bibitem{UCImlRepoCCdata}
+USGS.
+\newblock Uci machine learning repository - default of credit card clients data
+  set.
+\newblock \url{https://earthexplorer.usgs.gov/}.
+
+\end{thebibliography}
