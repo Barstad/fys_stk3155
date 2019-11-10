@@ -1,4 +1,4 @@
-*Project 2 in fys_stk4155
+# Project 2 in fys_stk4155
 
 Athors:
 - Johannes Barstad
