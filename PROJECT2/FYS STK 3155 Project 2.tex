@@ -35,7 +35,7 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 
 \DeclarePairedDelimiter\set\{\}
 
-\begin{filecontents}{Ref6.bib}
+\begin{filecontents}{Ref8.bib}
 
 @misc{Project2Assignment,
   title        = "Project 2 Assignment Description",
@@ -74,19 +74,19 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 
 @misc{LectureNotesLogisticReg,
 	title = "Data Analysis and Machine Learning: Logistic Regression",
-	author = "N. van Wieringen, Wessel",
+	author = "Morten Hjorth-Jensen",
 	howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/pub/LogReg/html/LogReg.html}",
 }
 
 @misc{LectureNotesOptGradientMethods,
 	title = "Data Analysis and Machine Learning Lectures: Optimization and Gradient Methods",
-	author = "N. van Wieringen, Wessel",
+	author = "Morten Hjorth-Jensen",
 	howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/pub/Splines/html/._Splines-bs000.html}",
 }
 
-@misc{LectureNotesOptGradientMethods,
+@misc{LectureNotesNNDL,
 	title = "Data Analysis and Machine Learning: Neural networks, from the simple perceptron to deep learning",
-	author = "N. van Wieringen, Wessel",
+	author = "Morten Hjorth-Jensen",
 	howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/pub/NeuralNet/html/NeuralNet-bs.html}",
 }
 
@@ -101,6 +101,13 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 	author = "Chou, M.",
 	year = "2006"
 	howpublished = "Business Weekly, 24-27}",
+}
+
+@misc{Stanford11,
+	title = "11. Parameter Estimation",
+	author = "Piech, C., and Sahami, M.",
+	year = "2017"
+	howpublished = "\url{https://web.stanford.edu/class/cs109/reader/11\%20Parameter\%20Estimation.pdf}}",
 }
 
 @book{ElementsOfStatLearning,
@@ -123,6 +130,23 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 % Any configuration that should be done before the end of the preamble:
 \usepackage{hyperref}
 \usepackage{tikz}
+
+
+
+\pgfdeclareimage[width = 7 cm]{LRliftTest}{"results/LR/lift plot for test.png"}
+\pgfdeclareimage[width = 7 cm]{LRliftTrain}{"results/LR/lift plot for train.png"}
+\pgfdeclareimage[width = 7 cm]{LRlossDevTraining}{"results/LR/Loss development during training NN.png"}
+\pgfdeclareimage[width = 7 cm]{LRregAreaRatio}{"results/LR/Regularization effect on area ratio.png"}
+\pgfdeclareimage[width = 7 cm]{LRregWeightNorm}{"results/LR/Regularization effect on weight norm.png"}
+\pgfdeclareimage[width = 7 cm]{LRparameterSearch}{"results/LR/parameter_search_LR.png"}
+
+\pgfdeclareimage[width = 7 cm]{NNliftTest}{"results/NN/lift plot for test.png"}
+\pgfdeclareimage[width = 7 cm]{NNliftTrain}{"results/NN/lift plot for train.png"}
+\pgfdeclareimage[width = 7 cm]{NNlossDevTraining}{"results/NN/Loss development during training NN.png"}
+\pgfdeclareimage[width = 7 cm]{NNregAreaRatio}{"results/NN/Regularization effect on area ratio.png"}
+\pgfdeclareimage[width = 7 cm]{NNregWeightNorm}{"results/NN/Regularization effect on weight norm.png"}
+\pgfdeclareimage[width = 7 cm]{NNparameterSearchFRANKE}{"results/NN/parameter_search_NN_FRANKE.png"}
+\pgfdeclareimage[width = 7 cm]{NNparameterSearch}{"results/NN/parameter_search_NN.png"}
 
 \hypersetup{colorlinks=true, urlcolor=blue, linkcolor=blue, citecolor=blue}
 
@@ -153,6 +177,7 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 	Our study on credit card defaults builds on the work of I-Cheng Yeh and Che-hui Lien\cite{ScientificArticle}, which outlines a comparison of various data mining techniques for predicting credit card defaults in the Taiwanese credit card market. I-Cheng and Che-hui's paper focus on a consumer payment dataset from October, 2005, retrieved from an "important bank in Taiwan" \cite{ScientificArticle}, as well as reviewing other relevant literature on credit card customers. Our focus here was to test whether or not we could obtain similar results for our implemented LR and MLP models in a classification task.\\\\
 	To justify our various choices made during the implementation we start of by discussing classification, LR and ANNs in a general theory section. For a general discussion on regression techniques, see our first project\cite{Project1}.
 \section{Theory}
+	This theory section is a summary of what we believe are the most relevant discussions pertaining to our implementation of Logistic Regression and Artificial Neural Networks. The section is based upon lecture notes provided in the course \cite{LectureNotesLogisticReg},\cite{LectureNotesOptGradientMethods},\cite{LectureNotesNNDL}, chapter 4 and 11 in Hastie et. al \cite{ElementsOfStatLearning}, and chapter 1, 2 and 3 of Michael A. Nielsens book \cite{NNandDL}.
 	\subsection{On classification problems}
 		Classification problems, as opposed to regression, are concerned with taking on the form of discrete variables (i.e. categories). The perhaps most common, and definitely simplest classification problem, is the \emph{binary classification problem}, where we have two possible outcomes. It is here common to encode the two possible outcomes as
 			$$ y = \begin{bmatrix} 0 &\mathrm{outcome 1} \\ 1 & \mathrm{outcome 2} \end{bmatrix} $$
@@ -161,7 +186,7 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 		In general however, the problem can be described as follows: We aim to study the case where the dependent variables (i.e. the responses or outcomes) are discrete and only can take on value from $k = 0,\dots,K-1$ --- i.e. $K$ classes. We aim to predict the output classes based on \emph{the design matrix} $\mathbf{\hat{X}} \in \mathbb{R} ^{n\times p}$. The design matrix consists of $n$-samples, where each contain data on $p$ features (predictors).
 		
 	\myparagraph{On the use of regressions techniques in classification}
-		One way to employ regressions techniques in classification problems is to have a sign function for mapping the output of the regressor to the discrete values in our list of possible outcomes (e.g. for the binary classification problem to $\{0,1\}$). An example of such a sign function could be $f(s_i)=sign(s_i)=1$ if $s_i\geq 0$ and $0$ otherwise. This approach is what historically has been called \emph{the perceptron model} in machine learning literature.\\\\
+		One way to employ regressions techniques in classification problems is to have a sign function for mapping the output of the regressor to the discrete values in our list of possible outcomes (e.g. for the binary classification problem to $\{0,1\}$). An example of such a sign function could be $f(s_i)=sign(s_i)=1$ if $s_i\geq 0$ and $0$ otherwise. This approach is what historically has been called \emph{the perceptron model} in machine learning literature.\cite{LectureNotesLogisticReg}\\\\
 		
 		Another way to use regression techniques to solve and describe classification problems is to interpret the output of the regression model as a \emph{probability} of a given category. This can be extremely useful in real world applications where we are interested in the expected value of some variable that \emph{depends} on the outcome of the problem we are trying to solve. One example of this could be a banks expected loss on credit debts over a given period, which would be given by $\textit{probability of loss}\times\textit{loss}$ (assuming "binary loss" --- i.e. you either default all the money you owe, or nothing at all).\\
 		This approach to using regression techniques in classification problems are sometimes referred to as a "soft" classifier --- we will study one example of this type of classifier, the \emph{logistic regression}. 
@@ -173,7 +198,15 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 			$$f'(z)=f(z)(1-f(z))$$
 		Moving on we will refer to the sigmoid function as $\sigma (z)$. Note also that $1-\sigma(z)=\sigma(-z)$, and that the function will output a number $(0,1)$.
 		This is an important attribute making it possible to interpret the output of a sigmoid function as the probability of a binary event.
-			
+		
+	\subsection{The Relu activation function}
+		The Relu activation is a very simple activation function, which has gained popularity due to its good performance in practical application. It takes the form of 
+			$$relu(x) = \max(0,x)$$
+		The derivative is set to $\begin{cases}
+		1\text{ if }x>0\\
+		\text{else }0
+		\end{cases}$
+		
 	\subsection{Logistic Regression}
 		For the binary case, logistic regression let us model the probability that a sample is of type "outcome2", as opposed to "outcome1". The binary case model has the form:
 		$$\log{\frac{p(\hat{\beta}\hat{x})}{1-p(\hat{\beta}\hat{x})}}=\beta_0+\beta_1 x_1+\beta_2 x_2+\dots\beta_p x_p$$
@@ -209,10 +242,15 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 		NNs work by extracting linear combinations of the inputs as a new set of \emph{derived features}, and then modeling the target as a nonlinear function of the \emph{derived features} (In simpler statistical models the construction of these features is typically more manual, and is often referred to as \emph{feature engineering}). They are constructed as a \emph{two-stage} regression or classification model, with the possible of multiple quantitative final outputs. For $K$-class classification we typically want $K$ outputs, with the $k$th output modeling the probability of the sample being in class $k$. For regression problems $1$ output suffice. The two stages can be interpreted as passing the inputs into the hidden layers, and extracting the output layer from the last hidden layer.
 		For training our neural networks we will apply \emph{gradient descent-} and \emph{backpropagation-algorithms} to minimize our chosen cost functions. 
 		\subsubsection{Choosing cost functions}
+			\textit{This subsection is primarily based on C. Piech and M. Sahamis discussion on Parameter Estimation from May 2017\cite{Stanford11}}.\\\\
+			In general, it is vital that the cost function is differentiable, as it is going to be used in the context of gradient descent. Further on, it is useful for these derivative terms to be simplistic. We chose the following cost functions as they satisfy these conditions clearly, as well as they have a good theoretical backing from maximum likelihood estimation of parameters.\\\\
 			For the regression part we apply \emph{quadratic loss}; 
 				$$C = \frac{1}{2}\sum_i^n\left(\hat{y}_i-y_i\right)^2$$
 			and for the classification problem we apply \emph{logistic loss}
 				$$C = -\frac{1}{n} \sum_x \left[y \ln a + (1-y ) \ln (1-a) \right]$$
+			The quadratic loss is a natural choice of cost function when handling regression problems where the range of the target variable is potentially $(-\inf, \inf)$. It stems from the maximum likelihood estimation based on the normal distribution, when samples are assumed IID. Intuitively it also seems like a natural choice as it is putting a larger penalty to larger deviations and is symmetric in its penalty, suggesting that both positive and negative deviations are equally important. Which is suitable in this situation.\\\\ 
+			The logistic loss is a natural choice when our targets range takes on a value in $(0,1)$. It stems from Bernoulli maximum likelihood estimation. Since the $\ln(a)$ is not defined when $a = 0$, in practice one often ads an additional small term to a in order to prevent this effect from impacting the general implementation. We can also easily see that inserting a small value of a (close to $0$) while $y = $1 will return a large value due to $\ln(a)$ will be large and negative. And equally when $y = 0$, and a is close to $1$, $\ln(1-a)$ will be large and negative. While when they are close, the value is small. Thus the penalty grows exponentially as the deviation from the truth grows, which is desirable for a cost function. To combat the negative values from the logarithmic terms, we also add a minus sign in front, as we are minimizing this expression. 						
+				
 		\subsubsection{Gradient descent and minimizing cost functions}
 			The fundamental idea of the gradient descent is that a function $F(\vec{x})$ decreases fastest if one moves $\vec{x}$ in the direction of the negative gradient:
 				$$\partial f(X)=\nabla_X f(X)\partial X$$
@@ -250,42 +288,43 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 				$$C = \frac{1}{n}\sum_i^n C_i$$
 				Backpropagation let us compute the partial derivatives $\frac{\partial C_i}{\partial \vec{w}}$ and $\frac{\partial C_i}{\partial b}$ for a single training sample. We then need to "recover" $\frac{\partial C}{\partial \vec{w}}$ and $\frac{\partial C}{\partial b}$ by averaging over the training samples --- if this is not possible due to the cost function we choose, backpropagation will not give good approximations to the optimum parameter values.
 				\item \textbf{Cost can be written as a function of the outputs from the neural network}
+				
 				%		 		then we use s⊙t to denote the elementwise product of the two vectorsHadamard product or Schur product.
 			\end{enumerate}	
 			
-			
-			The expression tells us how quickly the cost changes when we change the weights and biases
-			
-			$w_{jk}^l$ denotes the weight for the connection from the $k^{th}$ neuron in the $(l-1)^{th}$ layer to the $j^{th}$ neuron in the $l^{th}$ layer.
-			$b^l_j$ for bias from $j^{th}$ neuron in the $l^{th}$ layer
-			$a^l_j$ activation of the $j^{th}$ neuron in the $l^{th}$ layer
-			$a_j^l=\sigma\left(\sum_k w_{jk}^l a_k^{l-1} + b^l_j\right)$
-			$W^l$ weight matrix for each layer $l$ --- entries the weight connecting to the $l^{th}$ layer of neurons, every entry in the $j^{th}$ row and $k^{th}$ column is $w^l_{jk}$.
-			$\vec{b^l}$ bias vector --- components are just $b^l_j$, one for each neuron in the $l^{th}$ layer
-			$\vec{a^l}$ whose components are the activations $a^l_j$
-			%		 vectorization of $\sigma$ function (applying the function $\sigma$ to every element in a vector $\vec{v}$) --- the components of $\sigma(\vec{v})$ are just $\sigma(\vec{v})_j=\sigma(\vec_j)$
-			$a^l=\sigma(W^l\vec{a^{l-1}+\vec{b^l}})$
-			%		 how the activations in one layer relate to activations in the previous layer: we just apply the weight matrix to the activations, then add the bias vector, and finally apply the σ function
-			
-			$z^l\equiv w^l a^{l-1} + b^l$ intermediate quantity --- \emph{weighted input to the neurons in layer $l$}
-			
-			partial derivatives $\frac{\partial{C}}{\partial{w}}$ $\frac{\partial{C}}{\partial{b}}$
-			
-			
-			%		 
-			
-			
-			Intermediate quantity $\delta_j^l$ \emph{error in the $j^{th}$ neuron in the $l^{th}$ layer}
-			instead of outputting $\sigma{z_j^l}$ $\sigma(z_j^l + \Delta z_j^l)$ This change propagates through later layers in the network, finally causing the overall cost to change by an amount
-			$\frac{\partial {C}}{\partial {z_j^l}}\Delta z_j^l$
-			%		 Suppose ∂C∂zlj has a large value (either positive or negative). Then the demon can lower the cost quite a bit by choosing Δzlj to have the opposite sign to ∂C∂zlj.
-			%		 By contrast, if ∂C∂zlj is close to zero, then the demon can't improve the cost much at all by perturbing the weighted input zlj.
-			%		 So far as the demon can tell, the neuron is already pretty near optimal*This is only the case for small changes Δzlj, of course. We'll assume that the demon is constrained to make such small changes. And so there's a heuristic sense in which ∂C∂zlj is a measure of the error in the neuron.
-			%		 Motivated by this story, we define the error δlj of neuron j in layer l by
-			$$\delta_j^l\equiv \frac{\partial{C}}{\partial{z_j^l}}$$
-			%		 δl to denote the vector of errors associated with layer l.
-			
-			%		 Backpropagation will give us a way of computing δl for every layer, and then relating those errors to the quantities of real interest, ∂C/∂wljk and ∂C/∂blj.
+%			
+%			The expression tells us how quickly the cost changes when we change the weights and biases
+%			
+%			$w_{jk}^l$ denotes the weight for the connection from the $k^{th}$ neuron in the $(l-1)^{th}$ layer to the $j^{th}$ neuron in the $l^{th}$ layer.
+%			$b^l_j$ for bias from $j^{th}$ neuron in the $l^{th}$ layer
+%			$a^l_j$ activation of the $j^{th}$ neuron in the $l^{th}$ layer
+%			$a_j^l=\sigma\left(\sum_k w_{jk}^l a_k^{l-1} + b^l_j\right)$
+%			$W^l$ weight matrix for each layer $l$ --- entries the weight connecting to the $l^{th}$ layer of neurons, every entry in the $j^{th}$ row and $k^{th}$ column is $w^l_{jk}$.
+%			$\vec{b^l}$ bias vector --- components are just $b^l_j$, one for each neuron in the $l^{th}$ layer
+%			$\vec{a^l}$ whose components are the activations $a^l_j$
+%			%		 vectorization of $\sigma$ function (applying the function $\sigma$ to every element in a vector $\vec{v}$) --- the components of $\sigma(\vec{v})$ are just $\sigma(\vec{v})_j=\sigma(\vec_j)$
+%			$a^l=\sigma(W^l\vec{a^{l-1}+\vec{b^l}})$
+%			%		 how the activations in one layer relate to activations in the previous layer: we just apply the weight matrix to the activations, then add the bias vector, and finally apply the σ function
+%			
+%			$z^l\equiv w^l a^{l-1} + b^l$ intermediate quantity --- \emph{weighted input to the neurons in layer $l$}
+%			
+%			partial derivatives $\frac{\partial{C}}{\partial{w}}$ $\frac{\partial{C}}{\partial{b}}$
+%			
+%			
+%			%		 
+%			
+%			
+%			Intermediate quantity $\delta_j^l$ \emph{error in the $j^{th}$ neuron in the $l^{th}$ layer}
+%			instead of outputting $\sigma{z_j^l}$ $\sigma(z_j^l + \Delta z_j^l)$ This change propagates through later layers in the network, finally causing the overall cost to change by an amount
+%			$\frac{\partial {C}}{\partial {z_j^l}}\Delta z_j^l$
+%			%		 Suppose ∂C∂zlj has a large value (either positive or negative). Then the demon can lower the cost quite a bit by choosing Δzlj to have the opposite sign to ∂C∂zlj.
+%			%		 By contrast, if ∂C∂zlj is close to zero, then the demon can't improve the cost much at all by perturbing the weighted input zlj.
+%			%		 So far as the demon can tell, the neuron is already pretty near optimal*This is only the case for small changes Δzlj, of course. We'll assume that the demon is constrained to make such small changes. And so there's a heuristic sense in which ∂C∂zlj is a measure of the error in the neuron.
+%			%		 Motivated by this story, we define the error δlj of neuron j in layer l by
+%			$$\delta_j^l\equiv \frac{\partial{C}}{\partial{z_j^l}}$$
+%			%		 δl to denote the vector of errors associated with layer l.
+%			
+%			%		 Backpropagation will give us a way of computing δl for every layer, and then relating those errors to the quantities of real interest, ∂C/∂wljk and ∂C/∂blj.
 			\myparagraph{The fundamental equations of backpropagation}
 			Backpropagation is based around four fundamental equations:
 			\begin{align}
@@ -323,13 +362,20 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 					\item $b^l\rightarrow b^l-\frac{n}{m}\sum_x^n\delta^{(x,l-1)}$
 				\end{itemize}
 			\end{enumerate}
-			Of course, to implement stochastic gradient descent in practice you also need an outer loop generating mini-batches of training examples, and an outer loop stepping through multiple epochs of training
-
+			To implement the full stochastic gradient descent algorithm we also create an outer loop to generate mini-batches of training samples, as well as an outer loop stepping through the multiple epochs of training
+		\subsubsection{Regularization in Neural Networks}
+			To prevent overfitting and stabilizing the network we apply \emph{regularization} (for a more in-depth discussion of regularization, see our first project, project 1\cite{Project1}). This is done by adding a regularization term $\frac{\lambda}{2n}\sum_w w^2$ to the cost function $C_0$:
+				\begin{equation} 
+					C = C_0 + \frac{\lambda}{2n} \sum_w w^2 \tag{Regularized cost function}
+				\end{equation}
+			The effect of regularization, intuitively, is to make the network "prefer" to learn small weights, all else equal. Taking the partial derivatives of the regularized cost function above, we get:
+			$$\frac{\partial C}{\partial w}=\frac{\partial C}{\partial w}+\frac{\lambda}{n}w$$
+			$$\frac{\partial C}{\partial b}=\frac{\partial C_0}{\partial b}$$
 \section{Datasets}
 	\subsection{Data generated by the Franke Function}
-		For the regression part of the implementation we again use the data generated by the Franke Function from Project 1\cite{Project1}. We here chose to use the non-noisy version, as one of our goals was to study whether or not the ANN actually was able to produce feature engineering similar to what we implemented in Project 1 using polynomials and interaction terms. Thus,  
+		For the regression part of the implementation we again use the data generated by the Franke Function from Project 1\cite{Project1}. We here chose to use the non-noisy version, as one of our goals was to study whether or not the ANN actually was able to produce feature engineering similar to what we implemented in Project 1 using polynomials and interaction terms.
 	\subsection{Default of credit card clients}
-		In the classification part of the project we will study a cross sectional dataset containing credit card clients who either have, or have not defaulted. The time horizon is one month from the last observation of the proposed explanatory variable, until the observation of the dependent variable. The dataset were published 
+		In the classification part of the project we will study a cross sectional dataset containing credit card clients who either have, or have not defaulted. The time horizon is one month from the last observation of the proposed explanatory variable, until the observation of the dependent variable. Note however that some of the explanatory variables are observed even before one month before the observation of the dependent variable --- the dataset could thus be constructed as a \emph{time series dataset}. We did not however do the data wrangling necessary to model it that way here. For a more detailed overview of the dataset, see table 4 in the appendix.
 
 \section{Application and results}
 	\subsection{Scoring metrics for classification problems}
@@ -340,40 +386,89 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 			where $t_i$ is the guessed target, $y_i$ $I$ is the indicator function, equaling $1$ if $t_i=y_i$ and equaling $0$ otherwise.
 			As we can see, a perfect classifier will have an accuracy score of $1$, while a classifier that predicts every target wrong will have an accuracy score of $0$. It also follows that a classifier that is correct exactly half of the time will have an accuracy score of $0.5$, making interpretation easy.
 		\myparagraph{Area ratio}
-			The area-ratio for a binary classification problem are given by
-				\begin{equation*}
-					\resizebox{.5 \textwidth}{!}
-					{
-					$\text{Area ratio} =\frac{\text{Area between the model curve and the baseline curve}}{\text{Area between theoretical optimal curve and the baseline curve}}$
-					}
-				\end{equation*}
+			Because of the large class imbalance in the credit card data set, where $87.88\%$ of samples are non-risky, we cannot rely on accuracy alone as a measure of model performance, as it may seem better than it actually is. Considering that a completely generic algorithm that is predicting only $0$ will give a an accuracy score of $87.88\%$, which is many cases would be considered impressive. \\\\
+			From a business perspective, one would also want to reduce the number of false positive cases, which will classify potent customers as risky, and thus reduce income for the business. Thus, an alternative evaluation metric is proposed. The Area Ratio is a metric to evaluate models based on three curves. The curves are formed by ranking the customers based on the probability of being a risky customer. The baseline curve suggest random behavior. The model curve uses the scores from the model to rank the customers, and accumulates risky customers as they occur. The optimal curve is a curve where all the risky customers appear before the non-risky customers. We then compare the optimal curve vs the model curve, using the baseline curve as the baseline.\\\\ 
+			The final metric is given by computing two areas and calculating the ratio between them. The first ratio is the area between the baseline and the optimal curve. The second is the area between the model curve and the baseline curve. An optimal score is $1$, where the model curve equals the optimal curve. In this case, the false positives are minimal.
+					
+	\subsection{Results and comparison }
+		\subsubsection{Regression on the Franke Function data}
+		\myparagraph{ANN Hyperparameter search}
+			\pgfuseimage{NNparameterSearchFRANKE}
+		\begin{table}[H]
+			\caption{ANN Results compared to Project 1 OLS \cite{Project1}}
+			\begin{tabular}{@{}lll@{}}
+				\toprule
+				& Test  & Train \\ \midrule
+				\begin{tabular}[c]{@{}l@{}}Barstad, Heitmann, ANN\\   (Project 2)\end{tabular} & 0.999 & 0.999 \\
+				\begin{tabular}[c]{@{}l@{}}Barstad, Heitmann, OLS\\   (Project 1)\end{tabular} & 0.998 & 0.998 \\ \bottomrule
+			\end{tabular}
+		\end{table}
 
-			where a higher area ratio indicates a better performing model.
-		\myparagraph{Lift charts}
-			
-	\subsection{Comparison }
-	LR credit mot sci article
-\section{Conclusion}
-	This paper examined various regression and classification techniques, applying Logistic Regression and Artificial Neural Networks on the datasets generated by the Franke-Function, and the Credit Card data provided in I-Cheng and Che-hui's paper \cite{ScientificArticle}. 
-	
-	\subsection{Assessing the different models}
+		\subsubsection{Classification on the Credit Card data}
+			\myparagraph{LR Lift Chart for Test-data}
+			\pgfuseimage{LRliftTest}
+			\myparagraph{LR Hyperparameter search}
+			\pgfuseimage{LRparameterSearch}
+			\myparagraph{NN Lift Chart for Test-data}
+			\pgfuseimage{NNliftTest}
+			\myparagraph{ANN Hyperparameter search}
+			\pgfuseimage{NNparameterSearch}
+
+		\begin{table}[H]
+			\caption{LR Results compared to I-Cheng, Che-hui\cite{ScientificArticle}}
+			\begin{tabular}{@{}lll@{}}
+				\toprule
+				& Area ratio & Accuracy \\ \midrule
+				\begin{tabular}[c]{@{}l@{}}I-Cheng, Che-hui, Test\end{tabular} & 0.44       & 0.82     \\
+				I-Cheng, Che-hui, Train                                            & 0.41       & 0.80      \\
+				Barstad, Heitmann, Test                                            & 0.46       & 0.81     \\
+				Barstad, Heitmann, Train                                            & 0.45       & 0.81     \\ \bottomrule
+			\end{tabular}
+		\end{table}
+		\begin{table}[H]
+			\caption{ANN Results compared to I-Cheng, Che-hui\cite{ScientificArticle}}
+			\begin{tabular}{@{}lll@{}}
+				\toprule
+				& Area ratio & Accuracy \\ \midrule
+				I-Cheng, Che-hui, Test  & 0.54       & 0.83     \\
+				I-Cheng, Che-hui, Train & 0.55       & 0.81     \\
+				Barstad, Heitmann, Test & 0.55       & 0.82     \\
+				Barstad, Heitmann, Train & 0.58       & 0.82     \\ \bottomrule
+			\end{tabular}
+		\end{table}
+		
+
+\section{Conclusion and final remarks}	
+	\subsection{Conclusion: Assessing the different models}
 		\myparagraph{OLS vs ANNs for regression}
-			In terms of accuracy (estimated with test $R^2$) our ANN implementation performed similar to our OLS implementation from project 1\cite{Project1}. The main differences can thus be summarized in 
+			In terms of accuracy (estimated with test $R^2$) our ANN implementation performed similar to our OLS implementation from project 1\cite{Project1}. The main differences can thus be summarized in that 
+			\begin{itemize}
+				\item Our OLS-implementation employed "manual" feature engineering, which would have been very time consuming had we not known the exact function generating the data
+				\item The OLS-implementation is far easier to interpret
+			\end{itemize}
+			Which model is "best" then depends on the use case. In most scenarios we won't know the exact function that generates the data (if we indeed did --- modeling it would be nonsensical), and feature engineering would be very time consuming, and perhaps not even possible with a similar level of success that we had with the ANN. On the other hand, OLS leaves us with an easier to interpret model (albeit that is reduced somewhat by the large number of regressors needed to reach a good fit).
+			
 		\myparagraph{Logistic Regressions vs ANNs for classification}
 		
 		
-		A logistic regression model specifies that an appropriate function of the estimated probability of an event is a linear function of the observed values of the available explanatory variables \cite{Scientific Article}. The model can produce a simple and fairly interpretable formula for classification, however it is typically harder to properly model non-linear and interactive effects between the observed explanatory variables.
+		A logistic regression model specifies that an appropriate function of the estimated probability of an event is a linear function of the observed values of the available explanatory variables \cite{ScientificArticle}. The model can produce a simple and fairly interpretable formula for classification, however it is typically harder to properly model non-linear and interactive effects between the observed explanatory variables.
 		
-		Artificial neural networks can use non-linear equations to develop relationships between input and output variables through what is called a \emph{learning process}. In our study we, as well as I-Cheng and Che-hui\cite{Scientific Article}, apply a back propagation feed-forward neural network. As we have well labeled data (i.e. customers who defaulted, and customers who did not default), we were able to use supervised learning. ANNs can handle non-linear and interactive effects of explanatory variables, but does not have an easily interpreted formula for classification.
+		Artificial neural networks can use non-linear equations to develop relationships between input and output variables through what is called a \emph{learning process}. In our study we, as well as I-Cheng and Che-hui\cite{ScientificArticle}, apply a back propagation feed-forward neural network. As we have well labeled data (i.e. customers who defaulted, and customers who did not default), we were able to use supervised learning. ANNs can handle non-linear and interactive effects of explanatory variables, but does not have an easily interpreted formula for classification.
 		
-	\subsection{Conclusion and final remarks}
+	\subsection{Final remarks}
+		This paper examined various regression and classification techniques, applying Logistic Regression and Artificial Neural Networks on the datasets generated by the Franke-Function, and the Credit Card data provided in I-Cheng and Che-hui's paper \cite{ScientificArticle}. 
 		
 	\subsection{Feedback for future versions of this course}
 		When starting this project, we expected to be able to use the feedback from Project 1 to improve upon our delivery from the last project. As we still haven't gotten any feedback, we were not able to do so. This is in our opinion very unfortunate. Additionally, we are under the impression that some students have received feedback from the first project in devilry, and thus have been able to take into account your remarks to improve their report for Project 2. If this is the case, scoring and feedback on this project (i.e. project 2) should reflect this difference in possibilities to improve upon ones report.
 		
 \onecolumn
 \section{Appendix}
-	\begin{table}
+	\subsection{Section 2 --- Network Architecture}
+		For the credit card data, we use the following network structure. We have $2$ hidden layers of size 100 neurons. We use relu activation functions. The output layer has a single neuron and sigmoid activation. We use a large batch size of $512$, and train for $300$ epochs. We add a small lambda of  $0.001$ and use a learning rate of $0.01$.\\\\ 
+		
+		For the Franke data, we use the following network structure. We have $5$ hidden layers of size $300$, $100$, $50$, $20$ and $10$ neurons respectively. We use relu activation functions on these layers. The output layer has a single neuron and linear activation. We use a large batch size of $512$, and train for $1000$ epochs. We use no regularization. Learning rate is set to $0.01$. 
+	\subsection{Section 3 --- Datasets}
+	\begin{table} [H]
 		\caption{Default of credit card clients attribute information}
 %		\resizebox{\textwidth}{!}{%
 			\begin{tabular}{@{}lll@{}} % mulige problemer i denne linjen
@@ -389,7 +484,27 @@ In this paper we discuss and implement logistic regression (LR), as well as arti
 				$X_{18}$ - $X_{23}$ & (Montly) Amount of previous payment (NT dollar).\\ \bottomrule
 		\end{tabular}%}
 	\end{table}	
+\twocolumn
+	\subsection{Section 4 --- Results (Misc plots)}
+		\myparagraph{LR Lift Chart for Train-data, classification}
+		\pgfuseimage{LRliftTrain}
+		\myparagraph{LR Loss development during training, classification}
+		\pgfuseimage{LRlossDevTraining}
+		\myparagraph{LR Regularization effect on area ratio, classification}
+		\pgfuseimage{LRregAreaRatio}
+		\myparagraph{LR Regularization effect on weight norm, classification}
+		\pgfuseimage{LRregWeightNorm}
+		
+		\myparagraph{NN Lift Chart for Train-data, classification}
+		\pgfuseimage{NNliftTrain}
+		\myparagraph{NN Loss development during training, classification}
+		\pgfuseimage{NNlossDevTraining}
+		\myparagraph{NN Regularization effect on area ratio, classification}
+		\pgfuseimage{NNregAreaRatio}
+		\myparagraph{NN Regularization effect on weight norm, classification}
+		\pgfuseimage{NNregWeightNorm}		
+	
 \nocite{*}
 \bibliographystyle{plain}
-\bibliography{Ref6}
+\bibliography{Ref8}
 \end{document}
