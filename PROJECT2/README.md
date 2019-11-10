@@ -4,9 +4,10 @@ Athors:
 - Johannes Barstad
 - Olve Heitmann
 
+### Neural network/logistic regression implementation is located in NeuralNetwork.py.
 
-Neural network code in NeuralNetwork.py
 Data in folder data/
+
 Results in results folder
 - logistic regression results in LR/
 - neural network results in NN/
