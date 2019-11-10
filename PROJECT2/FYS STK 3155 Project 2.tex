@@ -1,10 +1,10 @@
-\title{FYS-STK3155 - Project 2 Autumn 2019\cite{LinkReference1}}
+\title{FYS-STK3155 - Project 2 Autumn 2019\cite{Project2Assignment}}
 
 \author{Johannes A. Barstad,
 		Olve Heitmann}
 
 \newcommand{\abstractText}{\noindent
-
+In this paper we discuss and implement logistic regression (LR), as well as artifiscial neural networks (ANNs) for use in regression as well as classification problems. The LR and ANN models are trained using batch gradient descent, combined with backpropagation for the ANNs. To test our models we use simulated Franke Function data for regression, and Credit Card data from I-Cheng, Yeh. and Che-hui, Lien's article \emph{The comparisons of data mining techniques for the predictive accuracy of probability of default of credit card clients} \cite{ScientificArticle} from 2008. For the simulated Franke Function data our results neural network are able to reproduce results similar to those obtained by OLS and manual feature engineering (polynomials and interaction terms)\cite{Project1} with a simple two-dimensional input. For the credit card data our results are similar for both LR and ANNs to those obtained by I-Cheng and Che-hui.
 }
 
 %%%%%%%%%%%%%%%%%
@@ -15,6 +15,7 @@
 
 \usepackage[super,comma,sort&compress]{natbib}
 \usepackage{abstract}
+\usepackage{graphicx}
 \renewcommand{\abstractnamefont}{\normalfont\bfseries}
 \renewcommand{\abstracttextfont}{\normalfont\small\itshape}
 \usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
@@ -24,6 +25,7 @@
 \DeclarePairedDelimiter\abs{\lvert}{\rvert}%
 \DeclarePairedDelimiter\norm{\lVert}{\rVert}%
 \usepackage{amsmath}
+\usepackage{amsfonts}
 \usepackage{csvsimple}
 \usepackage{booktabs}
 \usepackage{siunitx}
@@ -33,76 +35,94 @@
 
 \DeclarePairedDelimiter\set\{\}
 
-%\begin{filecontents}{Ref4.bib}
-%
-%@misc{Project2Assignment,
-%  title        = "Project 2 Assignment Description",
-%  author       = "Department of Physics, University of Oslo, Norway",
-%  howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/Projects/2019/Project2/pdf/Project2.pdf}",
-%}
-%
-%@misc{GithubRepo,
-%	title = "Project2 github repository",
-%	author = "Barstad, Johannes A. and Heitmann, Olve",
-%	howpublished ="\url{https://github.com/Barstad/fys_stk3155/tree/master/PROJECT2}",
-%}
-%
-%@misc{EarthExplorer,
-%	title = "EarthExplorer",
-%	author = "USGS",
-%	howpublished = "\url{https://earthexplorer.usgs.gov/}",
-%}
-%
-%@misc{UCImlRepoCCdata,
-%	title = "UCI Machine Learning Repository - Default of Credit Card Clients Data Set",
-%	author = "USGS",
-%	howpublished = "\url{https://earthexplorer.usgs.gov/}",
-%}
-%
-%@misc{FrankesFunction,
-%	title = "Virtual Library of Simulation Experiments: Test Functions and Datasets. FRANKE'S FUNCTION",
-%	author = "Derek Bingham",
-%	howpublished = "\url{https://www.sfu.ca/~ssurjano/franke2d.html}",
-%}
-%
-%@misc{LectureNotesLogisticReg,
-%	title = "Data Analysis and Machine Learning: Logistic Regression",
-%	author = "N. van Wieringen, Wessel",
-%	howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/pub/LogReg/html/LogReg.html}",
-%}
-%
-%@misc{LectureNotesOptGradientMethods,
-%	title = "Data Analysis and Machine Learning Lectures: Optimization and Gradient Methods",
-%	author = "N. van Wieringen, Wessel",
-%	howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/pub/Splines/html/._Splines-bs000.html}",
-%}
-%
-%@misc{LectureNotesOptGradientMethods,
-%	title = "Data Analysis and Machine Learning: Neural networks, from the simple perceptron to deep learning",
-%	author = "N. van Wieringen, Wessel",
-%	howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/pub/NeuralNet/html/NeuralNet-bs.html}",
-%}
-%
-%@misc{ScientificArticle,
-%	title = "The comparisons of data mining techniques for the predictive accuracy of probability of default of credit card clients",
-%	author = "I-Cheng, Yeh., Che-hui, Lien",
-%	howpublished = "\url{https://bradzzz.gitbooks.io/ga-seattle-dsi/content/dsi/dsi_05_classification_databases/2.1-lesson/assets/datasets/DefaultCreditCardClients_yeh_2009.pdf}",
-%}
-%
-%@book{ElementsOfStatLearning,
-%	author = "Hastie, Trevor, and Tibshirani, Robert, and H. Friedman, Jerome",
-%	title = "The Elements of Statistical Learning",
-%	year = "2008",
-%	publisher = "Springer",
-%}
-%
-%\end{filecontents}
+\begin{filecontents}{Ref6.bib}
+
+@misc{Project2Assignment,
+  title        = "Project 2 Assignment Description",
+  author       = "Department of Physics, University of Oslo, Norway",
+  howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/Projects/2019/Project2/pdf/Project2.pdf}",
+}
+
+@misc{GithubRepo,
+	title = "Project2 github repository",
+	author = "Barstad, Johannes A. and Heitmann, Olve",
+	howpublished ="\url{https://github.com/Barstad/fys_stk3155/tree/master/PROJECT2}",
+}
+@misc{Project1,
+	title = "Project1 github repository",
+	author = "Barstad, Johannes A. and Heitmann, Olve",
+	howpublished ="\url{https://github.com/Barstad/fys_stk3155/tree/master/PROJECT1}",
+}
+
+@misc{EarthExplorer,
+	title = "EarthExplorer",
+	author = "USGS",
+	howpublished = "\url{https://earthexplorer.usgs.gov/}",
+}
+
+@misc{UCImlRepoCCdata,
+	title = "UCI Machine Learning Repository - Default of Credit Card Clients Data Set",
+	author = "USGS",
+	howpublished = "\url{https://earthexplorer.usgs.gov/}",
+}
+
+@misc{FrankesFunction,
+	title = "Virtual Library of Simulation Experiments: Test Functions and Datasets. FRANKE'S FUNCTION",
+	author = "Derek Bingham",
+	howpublished = "\url{https://www.sfu.ca/~ssurjano/franke2d.html}",
+}
+
+@misc{LectureNotesLogisticReg,
+	title = "Data Analysis and Machine Learning: Logistic Regression",
+	author = "N. van Wieringen, Wessel",
+	howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/pub/LogReg/html/LogReg.html}",
+}
+
+@misc{LectureNotesOptGradientMethods,
+	title = "Data Analysis and Machine Learning Lectures: Optimization and Gradient Methods",
+	author = "N. van Wieringen, Wessel",
+	howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/pub/Splines/html/._Splines-bs000.html}",
+}
+
+@misc{LectureNotesOptGradientMethods,
+	title = "Data Analysis and Machine Learning: Neural networks, from the simple perceptron to deep learning",
+	author = "N. van Wieringen, Wessel",
+	howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/pub/NeuralNet/html/NeuralNet-bs.html}",
+}
+
+@misc{ScientificArticle,
+	title = "The comparisons of data mining techniques for the predictive accuracy of probability of default of credit card clients",
+	author = "I-Cheng, Yeh., Che-hui, Lien",
+	howpublished = "\url{https://bradzzz.gitbooks.io/ga-seattle-dsi/content/dsi/dsi_05_classification_databases/2.1-lesson/assets/datasets/DefaultCreditCardClients_yeh_2009.pdf}",
+}
+
+@misc{TaiwanCC2006,
+	title = "Cash and credit card crisis in Taiwan",
+	author = "Chou, M.",
+	year = "2006"
+	howpublished = "Business Weekly, 24-27}",
+}
+
+@book{ElementsOfStatLearning,
+	author = "Hastie, Trevor, and Tibshirani, Robert, and H. Friedman, Jerome",
+	title = "The Elements of Statistical Learning",
+	year = "2008",
+	publisher = "Springer",
+}
+
+
+@book{NNandDL,
+	author = "Michael A. Nielsen",
+	title = "Neural Networks and Deep Learning",
+	year = "2015",
+	publisher = "Determination Press",
+}
+
+\end{filecontents}
 
 % Any configuration that should be done before the end of the preamble:
 \usepackage{hyperref}
 \usepackage{tikz}
-
-\pgfdeclareimage[width = 7 cm]{Franke}{franke2d.png}
 
 \hypersetup{colorlinks=true, urlcolor=blue, linkcolor=blue, citecolor=blue}
 
@@ -113,94 +133,263 @@
 %%%%%%%%%%%%
 
 \twocolumn[
-  \begin{@twocolumnfalse}
-    \maketitle
-    \begin{abstract}
-      \abstractText
-      \newline
-      \newline
-    \end{abstract}
-  \end{@twocolumnfalse}
+\begin{@twocolumnfalse}
+	\maketitle
+	\begin{abstract}
+		\abstractText
+		\newline
+		\newline
+	\end{abstract}
+\end{@twocolumnfalse}
 ]
 
 %%%%%%%%%%%
 % Article %
 %%%%%%%%%%%
 
-%% Den andre scientifice artiklen og deres resultater, inkl reprodusere log reg analysen deres.
-%% Standard gradient descent med given learning rate (hvordan velge given?), Newton Raphson metoden
-%% Minibatches?
-%% sammenligne med skl for log reg - hvordan føre
-%% Feed forward neural network
-
 \section{Introduction}
+	The main aim of this project was to study classification and regressions problems, including implementing Logistic Regression (LR) as well as implementing and training a Multi Layer Perceptron (MLP) Neural Network using gradient descent and backpropagation. We then apply our models for i) predicting outputs from simulated data using the Franke Function, as well as ii) Predicting credit card defaults.\\ 
+	Dataset i) is our main test subject for the regression task. Our goal here was to study whether or not our MLP were able to reproduce and/ or improve upon the results we obtained in project 1 through manual feature engineering (i.e. the creation of polynoms and interaction terms) simply by taking in a two-dimensional input.\\\\
+	Our study on credit card defaults builds on the work of I-Cheng Yeh and Che-hui Lien\cite{ScientificArticle}, which outlines a comparison of various data mining techniques for predicting credit card defaults in the Taiwanese credit card market. I-Cheng and Che-hui's paper focus on a consumer payment dataset from October, 2005, retrieved from an "important bank in Taiwan" \cite{ScientificArticle}, as well as reviewing other relevant literature on credit card customers. Our focus here was to test whether or not we could obtain similar results for our implemented LR and MLP models in a classification task.\\\\
+	To justify our various choices made during the implementation we start of by discussing classification, LR and ANNs in a general theory section. For a general discussion on regression techniques, see our first project\cite{Project1}.
 \section{Theory}
 	\subsection{On classification problems}
 		Classification problems, as opposed to regression, are concerned with taking on the form of discrete variables (i.e. categories). The perhaps most common, and definitely simplest classification problem, is the \emph{binary classification problem}, where we have two possible outcomes. It is here common to encode the two possible outcomes as
 			$$ y = \begin{bmatrix} 0 &\mathrm{outcome 1} \\ 1 & \mathrm{outcome 2} \end{bmatrix} $$
 		In the practical application part of this project we will study the binary case, namely credit card client defaults (two possible outcomes, the client ended up defaulting or the client did not end up defaulting) with a dataset from UCI's Machine Learning Repository \cite{UCImlRepoCCdata}. \\\\
 		
-		In general however, the problem can be described as follows: We aim to study the case where the dependent variables (i.e. the responses or outcomes) are discrete and only can take on value from $k = 0,\dots,K-1$ --- i.e. $K$ classes. We aim to predict the output classes based on \emph{the design matrix} $\mathbf{\hat{X}} \in \mathbb{R}^{n\times p}$. The design matrix consists of $n$-samples, where each contain data on $p$ features (predictors).
+		In general however, the problem can be described as follows: We aim to study the case where the dependent variables (i.e. the responses or outcomes) are discrete and only can take on value from $k = 0,\dots,K-1$ --- i.e. $K$ classes. We aim to predict the output classes based on \emph{the design matrix} $\mathbf{\hat{X}} \in \mathbb{R} ^{n\times p}$. The design matrix consists of $n$-samples, where each contain data on $p$ features (predictors).
 		
 	\myparagraph{On the use of regressions techniques in classification}
 		One way to employ regressions techniques in classification problems is to have a sign function for mapping the output of the regressor to the discrete values in our list of possible outcomes (e.g. for the binary classification problem to $\{0,1\}$). An example of such a sign function could be $f(s_i)=sign(s_i)=1$ if $s_i\geq 0$ and $0$ otherwise. This approach is what historically has been called \emph{the perceptron model} in machine learning literature.\\\\
 		
-		Another way to use regression techniques to solve and describe classification problems is to interpret the output of the regression model as a \emph{probability} of a given category. This can be extremely useful in real world applications where we are interested in the expected value of some variable that \emph{depends} on the outcome of the problem we are trying to solve. One example of this could be a banks expected loss on credit debts over a given period, which would be given by $\mathit{probability of loss}\times\mathit{loss}$ (assuming "binary loss" --- i.e. you either default all the money you owe, or nothing at all).\\
+		Another way to use regression techniques to solve and describe classification problems is to interpret the output of the regression model as a \emph{probability} of a given category. This can be extremely useful in real world applications where we are interested in the expected value of some variable that \emph{depends} on the outcome of the problem we are trying to solve. One example of this could be a banks expected loss on credit debts over a given period, which would be given by $\textit{probability of loss}\times\textit{loss}$ (assuming "binary loss" --- i.e. you either default all the money you owe, or nothing at all).\\
 		This approach to using regression techniques in classification problems are sometimes referred to as a "soft" classifier --- we will study one example of this type of classifier, the \emph{logistic regression}. 
 		
 	\subsection{The Sigmoid function}
-		The logit function
-			$$p(t) = \frac{1}{1+\exp}=\frac{\exp t}{1+\expt}$$
-		note that $1-p(t)=p(-t)$
-		
-		The sigmoid function (or the logistic curve) is a
-		function that takes any real number, z, and outputs a number (0,1).
-		It is useful in neural networks for assigning weights on a relative scale.
-		The value z is the weighted sum of parameters involved in the learning algorithm.
+		The Sigmoid (logit) function is defined as:
+			$$f(z) = \frac{1}{1+\exp{-z}}$$
+		with the first order derivative given by:
+			$$f'(z)=f(z)(1-f(z))$$
+		Moving on we will refer to the sigmoid function as $\sigma (z)$. Note also that $1-\sigma(z)=\sigma(-z)$, and that the function will output a number $(0,1)$.
+		This is an important attribute making it possible to interpret the output of a sigmoid function as the probability of a binary event.
+			
+	\subsection{Logistic Regression}
+		For the binary case, logistic regression let us model the probability that a sample is of type "outcome2", as opposed to "outcome1". The binary case model has the form:
+		$$\log{\frac{p(\hat{\beta}\hat{x})}{1-p(\hat{\beta}\hat{x})}}=\beta_0+\beta_1 x_1+\beta_2 x_2+\dots\beta_p x_p$$
+		Logistic regression is widely used in biostatistical applications where binary problems occur frequently (patients survive or not, have heart disease or not, etc.)\cite{ElementsOfStatLearning}
+		\subsubsection{Fitting Logistic Regression Models}
+			Logistic Regression models are typically fit by \emph{maximum likelihood}, using the conditional likelihood of $G$ given $X$, where $G$ can be interpreted as the class of the observed sample, and $X$ the observed explanatory factors. \\
+			\emph{Maximimum likelihood} in general is not discussed in detail here, but can be thought of as methods were we aim at maximizing the probability of seeing the observed data --- for a more mathematical rigorous explanation, see e.g. Hastie et. al chapter 8. \cite{ElementsOfStatLearning}.\\
+			As $Pr(G|X)$ completely specifies the conditional distribution, the \emph{multinomial} distribution is appropriate (Hastie. et al page 120 \cite{ElementsOfStatLearning}). The log-likelihood is then given by
+				$$l(\theta)=\sum^N_{i=1} \log{p_{g_i}}(x_i;\theta)$$
+			where $p_{g_i}(x_i;\theta)=Pr(G=k|X=x_i;\theta)$. Coding $y_i=1$ when $g_i=1$, and $y_i=0$ when $g_i=2$, and denoting $p_1(x;\theta)=p(x;\theta)$ and $p_2(x;\theta)=1-p(x;\theta)$ we can write
+				\begin{align*}
+					l(\beta) &= \sum^N_{i=1}\{y_i\log{p(x_i;\beta)}+)(1-y_i)\log{(1-p(x_i;\beta))}\}\\
+							 &= \sum^N_{i=1}\{y_i\beta^Tx_i-\log{(1+\exp^{\beta^Tx_i})}\}
+				\end{align*}
+			assuming that the vector of inputs $x_i$ includes the constant term $1$ to accommodate the intercept. To maximize the log-likelihood, we set the derivatives to $0$. The score equations are then given by 
+				$$\frac{\partial l(\beta)}{\partial \beta} = \sum^N_{i=1}x_i(y_i-p(x_i;\beta)) = 0$$
+			which are $p+1$ equations \emph{nonlinear in $\beta$}
+%		
+%		$$p(\hat{\beta}\hat{x}) = \frac{\exp{\beta_0+\beta_1x_1+\beta_2\x2+\dots\beta_px_p}}{1+\exp{\beta_0+\beta_1x_1+\beta_2\x2+\dots\beta_px_p}}$$
+%
+%		\myparagraph{Cost function}
+%			The minimization of this cost function leads to a non-linear equation in the parameters $\hat{\beta}$. The optimization procedure thus calls for the use of \emph{gradient descent methods}.
+%		\myparagraph{Design matrix}
+%		\myparagraph{Gradient Descent Solver}
+%		\myparagraph{Learning Rates}	
+%		\myparagraph{Stochastic Gradient Descent}
+%			with/ without mini batches
+%		
+%	\subsection{Perceptrons}
+%	
+	\subsection{Neural Networks}
+		Neural networks (NNs) are a class of learning methods developed originally developed separately in two different fields --- statistics and artificial intelligence. The two fields however ended up creating what is essentially identical models\cite{ElementsOfStatLearning}.\\\\
+		NNs work by extracting linear combinations of the inputs as a new set of \emph{derived features}, and then modeling the target as a nonlinear function of the \emph{derived features} (In simpler statistical models the construction of these features is typically more manual, and is often referred to as \emph{feature engineering}). They are constructed as a \emph{two-stage} regression or classification model, with the possible of multiple quantitative final outputs. For $K$-class classification we typically want $K$ outputs, with the $k$th output modeling the probability of the sample being in class $k$. For regression problems $1$ output suffice. The two stages can be interpreted as passing the inputs into the hidden layers, and extracting the output layer from the last hidden layer.
+		For training our neural networks we will apply \emph{gradient descent-} and \emph{backpropagation-algorithms} to minimize our chosen cost functions. 
+		\subsubsection{Choosing cost functions}
+			For the regression part we apply \emph{quadratic loss}; 
+				$$C = \frac{1}{2}\sum_i^n\left(\hat{y}_i-y_i\right)^2$$
+			and for the classification problem we apply \emph{logistic loss}
+				$$C = -\frac{1}{n} \sum_x \left[y \ln a + (1-y ) \ln (1-a) \right]$$
+		\subsubsection{Gradient descent and minimizing cost functions}
+			The fundamental idea of the gradient descent is that a function $F(\vec{x})$ decreases fastest if one moves $\vec{x}$ in the direction of the negative gradient:
+				$$\partial f(X)=\nabla_X f(X)\partial X$$
+			where $\nabla_X$ is the gradient of $f$ with respect to $X$, i.e.
+				$$\nabla_X\equiv \left(\frac{\partial f}{\partial x_1},\frac{\partial f}{\partial x_2},\dots,\frac{\partial f}{\partial x_m}\right)$$
+			
+			This idea stems from a well known linear algebraic relation, the inner product between two vectors of fixed lengths:
+				$$\vec{w}^T\vec{v}=\abs{w}\abs{v}\cos{\theta}$$
+			This product can be shown to be at its maximum when the two vectors are aligned (i.e. when $\theta = 0$), and consequently at its minimum when the two vectors point in opposite directions.\\
+			In summary, finding the minimum of our scalar function requires us to find a turning point --- i.e. a point where the gradient will be $0$. As most of the cost functions desirable to apply for neural networks doesn't have  closed form solutions, it is often not possible to simply solve $\nabla_X f(X)=0$.
+			\myparagraph{Iterative solutions}
+				When closed form solutions are unavailable we begin with an initial "guess" for the optimal $X$ and refine it iteratively until the correct value is obtained
+				--- One should here however note the "risk" of discovering mere local minima.
+				For \emph{squared error loss}
+				
+					$$Loss=\frac{1}{T}\sum_i div(Y_i,d_i)$$
+				Minimize wrt $\set{w_{ij}^l,b_j^l}$
+				intialize all weights and biases $\set{w_{i,j}^k}$
+				For every layer $k$, for all $i,j$ update $w_{i,j}^k=w_{i,j}^k-\eta\frac{\partial Loss}{\partial w_{i,j}^k}$ until loss has converged
+				
+			One starts of with an initial guess $LOL$ for the minimum value of $F$, and compute new approximations according to
+			\begin{itemize}
+				\item Initialize $x^0$, $k=0$
+				\item While $\abs{\abs{\nabla_x f(x^k)}}>\epsilon$:
+				$$x^{k+1}=x^k-\eta^k \nabla_x f(x^k)^T$$
+				where $\eta^k$ is the "step size" (learning rate), and $\epsilon$ is some threshold  "Taking a step against the derivative"
+			\end{itemize}
+		\subsubsection{Implementing backpropagation}
+			Backpropagation was first introduced in a famous 1986 paper by David Rumelhart, Geoffrey Hinton, and Ronald Williams. The paper describes several neural networks where backpropagation works far faster than earlier approaches, making it possible to use neural nets to solve problems which had previously been insoluble. Backpropagation is now the main workhorse of learning in neural networks.\\\\
+			
+			\myparagraph{Assumptions for employing backpropagation}
+			To successfully apply backpropagation we need to make two assumptions regarding the cost function:
+			\begin{enumerate}
+				\item \textbf{The cost function can be written as an average of the cost functions of the individual training samples:} 
+				$$C = \frac{1}{n}\sum_i^n C_i$$
+				Backpropagation let us compute the partial derivatives $\frac{\partial C_i}{\partial \vec{w}}$ and $\frac{\partial C_i}{\partial b}$ for a single training sample. We then need to "recover" $\frac{\partial C}{\partial \vec{w}}$ and $\frac{\partial C}{\partial b}$ by averaging over the training samples --- if this is not possible due to the cost function we choose, backpropagation will not give good approximations to the optimum parameter values.
+				\item \textbf{Cost can be written as a function of the outputs from the neural network}
+				%		 		then we use s⊙t to denote the elementwise product of the two vectorsHadamard product or Schur product.
+			\end{enumerate}	
+			
+			
+			The expression tells us how quickly the cost changes when we change the weights and biases
+			
+			$w_{jk}^l$ denotes the weight for the connection from the $k^{th}$ neuron in the $(l-1)^{th}$ layer to the $j^{th}$ neuron in the $l^{th}$ layer.
+			$b^l_j$ for bias from $j^{th}$ neuron in the $l^{th}$ layer
+			$a^l_j$ activation of the $j^{th}$ neuron in the $l^{th}$ layer
+			$a_j^l=\sigma\left(\sum_k w_{jk}^l a_k^{l-1} + b^l_j\right)$
+			$W^l$ weight matrix for each layer $l$ --- entries the weight connecting to the $l^{th}$ layer of neurons, every entry in the $j^{th}$ row and $k^{th}$ column is $w^l_{jk}$.
+			$\vec{b^l}$ bias vector --- components are just $b^l_j$, one for each neuron in the $l^{th}$ layer
+			$\vec{a^l}$ whose components are the activations $a^l_j$
+			%		 vectorization of $\sigma$ function (applying the function $\sigma$ to every element in a vector $\vec{v}$) --- the components of $\sigma(\vec{v})$ are just $\sigma(\vec{v})_j=\sigma(\vec_j)$
+			$a^l=\sigma(W^l\vec{a^{l-1}+\vec{b^l}})$
+			%		 how the activations in one layer relate to activations in the previous layer: we just apply the weight matrix to the activations, then add the bias vector, and finally apply the σ function
+			
+			$z^l\equiv w^l a^{l-1} + b^l$ intermediate quantity --- \emph{weighted input to the neurons in layer $l$}
+			
+			partial derivatives $\frac{\partial{C}}{\partial{w}}$ $\frac{\partial{C}}{\partial{b}}$
+			
+			
+			%		 
+			
+			
+			Intermediate quantity $\delta_j^l$ \emph{error in the $j^{th}$ neuron in the $l^{th}$ layer}
+			instead of outputting $\sigma{z_j^l}$ $\sigma(z_j^l + \Delta z_j^l)$ This change propagates through later layers in the network, finally causing the overall cost to change by an amount
+			$\frac{\partial {C}}{\partial {z_j^l}}\Delta z_j^l$
+			%		 Suppose ∂C∂zlj has a large value (either positive or negative). Then the demon can lower the cost quite a bit by choosing Δzlj to have the opposite sign to ∂C∂zlj.
+			%		 By contrast, if ∂C∂zlj is close to zero, then the demon can't improve the cost much at all by perturbing the weighted input zlj.
+			%		 So far as the demon can tell, the neuron is already pretty near optimal*This is only the case for small changes Δzlj, of course. We'll assume that the demon is constrained to make such small changes. And so there's a heuristic sense in which ∂C∂zlj is a measure of the error in the neuron.
+			%		 Motivated by this story, we define the error δlj of neuron j in layer l by
+			$$\delta_j^l\equiv \frac{\partial{C}}{\partial{z_j^l}}$$
+			%		 δl to denote the vector of errors associated with layer l.
+			
+			%		 Backpropagation will give us a way of computing δl for every layer, and then relating those errors to the quantities of real interest, ∂C/∂wljk and ∂C/∂blj.
+			\myparagraph{The fundamental equations of backpropagation}
+			Backpropagation is based around four fundamental equations:
+			\begin{align}
+			&\delta_j^L = \frac{\partial {C}}{\partial{a_j^L}}\sigma'(z_j^L). \tag{BP1}\\
+			&\delta^L = (a^L-y) \odot \sigma'(z^L). \tag{BP2}\\
+			&\frac{\partial C}{\partial b^l_j} = \delta^l_j.\tag{BP3}\\
+			&\frac{\partial C}{\partial w^l_{jk}} = a^{l-1}_k \delta^l_j. \tag{BP4}
+			\end{align}
+			%		 Together, those equations give us a way of computing both the error δl and the gradient of the cost function. 
+			An equation for the error in the output layer
+			$$\delta_j^L = \frac{\partial {C}}{\partial{a_j^L}}\sigma'(z_j^L)$$
+			%		 The second term on the right, σ′(zLj), measures how fast the activation function σ is changing at zLj. Matrix form $\delta^L=\nabla_a C \odot \sigma'(z^L)$
+			
+			\begin{enumerate}
+				\item \textbf{Input $x$:} Set the corresponding activation $a^l$ for the input layer
+				\item \textbf{Feed forward:} For each $l=2,3,\dots,L$ compute $z^l=w^la^{l-1}+b^l$, and $a^l=\sigma(z^l)$
+				\item \textbf{Output error $\sigma^L$:} Compute the vector $\sigma^L=\nabla_a C\odot\sigma'(z^L)$
+				\item \textbf{Backpropagate the error:} For each $l=L-1,L-2,\dots,2$ compute $\delta^l=((w^{l+1})^T\delta^{l+1})\odot\sigma'(z^l)$
+				\item \textbf{Output:} The gradient of the cost function is given by $\frac{\partial C}{\partial w^l_{jk}}=a_k^{l-1}\delta_j^l$ and $\frac{\partial C}{\partial b_j^l}=\delta_j^l$
+			\end{enumerate}
+			We compute the error vectors $\delta^l$ backward, starting from the final layer --- hence \emph{backpropagation}. the backward movement is a consequence of the fact that the cost is a function of outputs from the network. To understand how the cost varies with earlier weights and biases we need to repeatedly apply the chain rule, working backward through the layers to obtain usable expressions.
+			In practice, it's common to combine backpropagation with a learning algorithm such as stochastic gradient descent, in which we compute the gradient for many training examples. In particular, given a mini-batch of m training examples, the following algorithm applies a gradient descent learning step based on that mini-batch
+			\begin{enumerate}
+				\item Input the set of training samples
+				\item Repeat step 1-4 of the back propagation algorithm for each training sample $x$, that is:  
+				\begin{enumerate}
+					\item \textbf{Input $x$:} Set the corresponding input activation $a^{(x,l)}$
+					\item \textbf{Feed forward:} For each $l=2,3,\dots,L$ compute $z^{(x,l)}=w^l a^{(x,l-1)}+b^l$, and $a^{(x,l)}=\sigma(z^{(x,l)})$
+					\item \textbf{Output error $\sigma^{(x,L)}$:} Compute the vector $\sigma^{(x,L)}=\nabla_a C_x\odot\sigma'(z^{(x,L)})$
+					\item \textbf{Backpropagate the error:} For each $l=L-1,L-2,\dots,2$ compute $\delta^{(x,l)}=((w^{l+1})^T\delta^{(x,l+1)})\odot\sigma'(z^{(x,l)})$
+				\end{enumerate}
+				\item \textbf{Gradient descent:} For each $l=L,L-1,\dots,2$ update the weights and biases according to the following rules: 
+				\begin{itemize}
+					\item $w^l\rightarrow w^l-\frac{n}{m}\sum_x^n\delta^{(x,l-1)}(a^{(x,l-1)})^T$
+					\item $b^l\rightarrow b^l-\frac{n}{m}\sum_x^n\delta^{(x,l-1)}$
+				\end{itemize}
+			\end{enumerate}
+			Of course, to implement stochastic gradient descent in practice you also need an outer loop generating mini-batches of training examples, and an outer loop stepping through multiple epochs of training
 
-	\subsection{Maximum Likelihood}
-		aim at maximizing the probability of seeing the observed data
-		
-	\subsection{Logistic regression}
-		$$\log{\frac{p(\hat{\beta}\hat{x})}{1-p(\hat{\beta}\hat{x})}}=\beta_0+\beta_1x_1+\beta_2\x2+\dots\beta_px_p$$
-		
-		$$p(\hat{\beta}\hat{x}) = \frac{\exp{\beta_0+\beta_1x_1+\beta_2\x2+\dots\beta_px_p}}{1+\exp{\beta_0+\beta_1x_1+\beta_2\x2+\dots\beta_px_p}}$$
-
-		\myparagraph{Cost function}
-			The minimization of this cost function leads to a non-linear equation in the parameters $\hat{\beta}$. The optimization procedure thus calls for the use of \emph{gradient descent methods}.
-		\myparagraph{Design matrix}
-		\myparagraph{Gradient Descent Solver}
-		\myparagraph{Learning Rates}
-		\myparagraph{Newton Raphson Method}
-		
-		\myparagraph{Stochastic Gradient Descent}
-			with/ without mini batches
-		
-	\subsection{Perceptrons}
-	
-	The accuracy score for binary classification problems are given by
-		$$Accuracy=\frac{\sum_{i=1}^nI(t_i=y_i)}{n}$$
-	where $t_i$ is the guessed target, $y_i$ $I$ is the indicator function, equaling $1$ if $t_i=y_i$ and equaling $0$ otherwise.
-	As we can see, a perfect classifier will have an accuracy score of $1$, while a classifier that predicts every target wrong will have an accuracy score of $0$. It also follows that a classifier that is correct exactly half of the time will have an accuracy score of $0.5$, making interpretation easy.
-	\subsection{On different types of datasets}
-		\myparagraph{Crossectional data}
-		\myparagraph{Timeseries data}
-		\myparagraph{Panel data}
 \section{Datasets}
+	\subsection{Data generated by the Franke Function}
+		For the regression part of the implementation we again use the data generated by the Franke Function from Project 1\cite{Project1}. We here chose to use the non-noisy version, as one of our goals was to study whether or not the ANN actually was able to produce feature engineering similar to what we implemented in Project 1 using polynomials and interaction terms. Thus,  
 	\subsection{Default of credit card clients}
-		In the classification part of the project we will study a cross sectional dataset containing credit card clients who either have or have not defaulted. The time horizon is one month from observation of the proposed explanation the time of obserThe dataset were published 
-		\begin{table}
-			\caption{Default of credit card clients attribute information}
+		In the classification part of the project we will study a cross sectional dataset containing credit card clients who either have, or have not defaulted. The time horizon is one month from the last observation of the proposed explanatory variable, until the observation of the dependent variable. The dataset were published 
+
+\section{Application and results}
+	\subsection{Scoring metrics for classification problems}
+		To properly assess the results from applying our models to the datasets discussed in section 3 we use the following metrics, as well as $R^2$ for the regression problem. For a discussion on $R^2$, see our report for Project 1\cite{Project1}.
+		\myparagraph{Accuracy score}
+			The accuracy score for binary classification problems are given by
+				$$Accuracy=\frac{\sum_{i=1}^nI(t_i=y_i)}{n}$$
+			where $t_i$ is the guessed target, $y_i$ $I$ is the indicator function, equaling $1$ if $t_i=y_i$ and equaling $0$ otherwise.
+			As we can see, a perfect classifier will have an accuracy score of $1$, while a classifier that predicts every target wrong will have an accuracy score of $0$. It also follows that a classifier that is correct exactly half of the time will have an accuracy score of $0.5$, making interpretation easy.
+		\myparagraph{Area ratio}
+			The area-ratio for a binary classification problem are given by
+				\begin{equation*}
+					\resizebox{.5 \textwidth}{!}
+					{
+					$\text{Area ratio} =\frac{\text{Area between the model curve and the baseline curve}}{\text{Area between theoretical optimal curve and the baseline curve}}$
+					}
+				\end{equation*}
+
+			where a higher area ratio indicates a better performing model.
+		\myparagraph{Lift charts}
+			
+	\subsection{Comparison }
+	LR credit mot sci article
+\section{Conclusion}
+	This paper examined various regression and classification techniques, applying Logistic Regression and Artificial Neural Networks on the datasets generated by the Franke-Function, and the Credit Card data provided in I-Cheng and Che-hui's paper \cite{ScientificArticle}. 
+	
+	\subsection{Assessing the different models}
+		\myparagraph{OLS vs ANNs for regression}
+			In terms of accuracy (estimated with test $R^2$) our ANN implementation performed similar to our OLS implementation from project 1\cite{Project1}. The main differences can thus be summarized in 
+		\myparagraph{Logistic Regressions vs ANNs for classification}
+		
+		
+		A logistic regression model specifies that an appropriate function of the estimated probability of an event is a linear function of the observed values of the available explanatory variables \cite{Scientific Article}. The model can produce a simple and fairly interpretable formula for classification, however it is typically harder to properly model non-linear and interactive effects between the observed explanatory variables.
+		
+		Artificial neural networks can use non-linear equations to develop relationships between input and output variables through what is called a \emph{learning process}. In our study we, as well as I-Cheng and Che-hui\cite{Scientific Article}, apply a back propagation feed-forward neural network. As we have well labeled data (i.e. customers who defaulted, and customers who did not default), we were able to use supervised learning. ANNs can handle non-linear and interactive effects of explanatory variables, but does not have an easily interpreted formula for classification.
+		
+	\subsection{Conclusion and final remarks}
+		
+	\subsection{Feedback for future versions of this course}
+		When starting this project, we expected to be able to use the feedback from Project 1 to improve upon our delivery from the last project. As we still haven't gotten any feedback, we were not able to do so. This is in our opinion very unfortunate. Additionally, we are under the impression that some students have received feedback from the first project in devilry, and thus have been able to take into account your remarks to improve their report for Project 2. If this is the case, scoring and feedback on this project (i.e. project 2) should reflect this difference in possibilities to improve upon ones report.
+		
+\onecolumn
+\section{Appendix}
+	\begin{table}
+		\caption{Default of credit card clients attribute information}
+%		\resizebox{\textwidth}{!}{%
 			\begin{tabular}{@{}lll@{}} % mulige problemer i denne linjen
 				\toprule
 				Explanatory variable & Explanation \\ \midrule
-				X_1  & \text{Amount of the given credit (NT dollar): it includes both the individual consumer credit and his/her family (supplementary) credit.}\\
-				X_2 & Gender (1 = male; 2 = female). \\
-				X_3 & Education (1 = graduate school; 2 = university; 3 = high school; 4 = others).\\
-				X_4 & Marital status (1 = married; 2 = single; 3 = others).\\
-				X_5 & Age (year).\\
-				X_6 - X_{11} & History of past payment. We tracked the past monthly payment records (from April to September, 2005) as follows: X6 = the repayment status in September, 2005; X7 = the repayment status in August, 2005; . . .;X11 = the repayment status in April, 2005. The measurement scale for the repayment status is: -1 = pay duly; 1 = payment delay for one month; 2 = payment delay for two months; . . .; 8 = payment delay for eight months; 9 = payment delay for nine months and above.\\
-				X_{12} - X_{17} & Amount of bill statement (NT dollar). X12 = amount of bill statement in September, 2005; X13 = amount of bill statement in August, 2005; . . .; X17 = amount of bill statement in April, 2005.\\
-				X_{18} - X_{23} & Amount of previous payment (NT dollar). X18 = amount paid in September, 2005; X19 = amount paid in August, 2005; . . .;X23 = amount paid in April, 2005.\\ \bottomrule
-			\end{tabular}
-		\end{table}
+				$X_1$ & Amount of the given credit (NT dollar): Individual consumer credit and family credit.\\
+				$X_2$ & Gender (1 = male; 2 = female). \\
+				$X_3$ & Education (1 = graduate school; 2 = university; 3 = high school; 4 = others).\\
+				$X_4$ & Marital status (1 = married; 2 = single; 3 = others).\\
+				$X_5$ & Age (year).\\				
+				$X_6$ - $X_{11}$ & (Monthly) Past payment status. Scale: -1 = pay duly; 1 = delay 1 month; 2 = delay 2 months\\
+				$X_{12}$ - $X_{17}$ & (Monthly) Amount of bill statement (NT dollar).\\
+				$X_{18}$ - $X_{23}$ & (Montly) Amount of previous payment (NT dollar).\\ \bottomrule
+		\end{tabular}%}
+	\end{table}	
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{Ref6}
+\end{document}
