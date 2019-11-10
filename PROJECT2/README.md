@@ -1,6 +1,6 @@
 # Project 2 in fys_stk4155
 
-Athors:
+Authors:
 - Johannes Barstad
 - Olve Heitmann
 
