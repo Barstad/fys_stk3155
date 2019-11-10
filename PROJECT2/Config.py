@@ -7,7 +7,7 @@ class Config:
     # USE_DATA_SIZE = 10000
 
     ############## FILL IN #############
-    EXPERIMENT = "TERRAIN"
+    EXPERIMENT = "FRANKE"
     ####################################
 
     assert EXPERIMENT in ['FRANKE', 'NOISY_FRANKE', 'TERRAIN']

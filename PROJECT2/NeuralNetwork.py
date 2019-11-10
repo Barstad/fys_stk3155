@@ -196,10 +196,12 @@ class NeuralNetwork():
                 else:
                     layer =  layer.connect(self.layers[i-1], None)
 
-    def train(self, batch_size, epochs, learning_rate, l2_lambda = 0):
+    def train(self, batch_size, epochs, learning_rate, l2_lambda = 0, keep_history = False):
         N = len(self.X)
         
         iterations = int(np.ceil(N / batch_size))
+
+        self.history = []
 
         for epoch in range(epochs):
             for i in range(iterations):
@@ -217,27 +219,27 @@ class NeuralNetwork():
                 
                 # Weight update
                 for layer in self.layers:
-                    layer.W -= learning_rate * layer.dW - learning_rate * l2_lambda * layer.W / X.shape[0]
+                    layer.W = layer.W - learning_rate * layer.dW - learning_rate * l2_lambda * layer.W / X.shape[0]
                     layer.b -= learning_rate * layer.db
-                    
-            if (epochs > 10):
-                if (epoch%(epochs//10) == 0):
-                    print(f"EPOCH {epoch} :")
-                    print(f"{self.cost_function} cost:", COSTS[self.cost_function](self.predict(X), y))
-                    val_pred = self.predict(self.validation_data[0])
-                    print(f"validaltion {self.cost_function} cost:", COSTS[self.cost_function](val_pred, self.validation_data[1]))
-                    print("\n")
-            else:
+
+            self.history.append([epoch, 
+            COSTS[self.cost_function](self.predict(self.validation_data[0]), self.validation_data[1]),
+            COSTS[self.cost_function](self.predict(X), y)])
+
+            def print_results():
                 print(f"EPOCH {epoch} :")
-                print(f"{self.cost_function} :", COSTS[self.cost_function](self.predict(X), y))
+                print(f"{self.cost_function} cost:", COSTS[self.cost_function](self.predict(X), y))
                 val_pred = self.predict(self.validation_data[0])
                 print(f"validaltion {self.cost_function} cost:", COSTS[self.cost_function](val_pred, self.validation_data[1]))
                 print("\n")
+                    
+            if (epochs > 10):
+                if (epoch%(epochs//10) == 0):
+                    print_results()
+            else:
+                print_results()
 
-        print(f"EPOCH {epoch} :")
-        print(f"{self.cost_function} :", COSTS[self.cost_function](self.predict(X), y))
-        val_pred = self.predict(self.validation_data[0])
-        print(f"validaltion {self.cost_function} cost:", COSTS[self.cost_function](val_pred, self.validation_data[1]))
+        print_results()
 
     def predict(self, X):
         for layer in self.layers:
