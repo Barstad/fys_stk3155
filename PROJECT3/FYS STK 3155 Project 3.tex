@@ -1,0 +1,406 @@
+\title{FYS-STK3155 - Project 3 Autumn 2019\cite{Project3Assignment}}
+
+\author{Johannes A. Barstad,
+		Olve Heitmann}
+
+\newcommand{\abstractText}{\noindent
+The project deals with implementation, application, and discussion/ consideration of the predictive performance of Decision Trees, Gradient Boosted Trees, and Random Forest on the Wine Quality Data set available through UCI's ML Repocitory. In addition we also apply the XGBoost-algorithm by Chen and Guestrin to the same data set. To estimate optimal values for hyperparameters we use techniques such as k-fold cross validation. Predicting wine quality is a difficult task as taste is the least understood of the human senses --- successfully modeling quality RESULTATER
+}
+
+%%%%%%%%%%%%%%%%%
+% Configuration %
+%%%%%%%%%%%%%%%%%
+
+\documentclass[10pt, a4paper, twocolumn]{article}
+
+\usepackage[super,comma,sort&compress]{natbib}
+\usepackage{abstract}
+\usepackage{graphicx}
+\renewcommand{\abstractnamefont}{\normalfont\bfseries}
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage{fullpage}
+\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{csvsimple}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{float}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\DeclarePairedDelimiter\set\{\}
+
+\begin{filecontents}{Ref9.bib}
+@misc{anavidhya,
+	title = "Complete Guide to Parameter Tuning in XGBoost with codes in Python",
+	author = "Jain, A.",
+	year = "2016",
+	howpublished = "\url{https://www.analyticsvidhya.com/blog/2016/03/complete-guide-parameter-tuning-xgboost-with-codes-python/"},
+}
+	
+@misc{vintelligence,
+	title = "Artificial Vintelligence: AI Gets Taste of Wine Industry",
+	author = "Von Vivo, Tivon",
+	year = "2018",
+	howpublished = "\url{https://vonvino.com/artificial-intelligence/}",
+}
+
+
+@misc{winepaper,
+	title = "Modeling Wine Preferences from Physicochemical Properties using Fuzzy Techniques",
+	author = "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J.",
+	year = "2009",
+	howpublished = "\url{https://www.scitepress.org/Papers/2015/55519/55519.pdf}",
+}
+
+@misc{dataset,
+	title = " Wine Quality Data Set",
+	author = "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J.",
+	howpublished = "\url{https://archive.ics.uci.edu/ml/datasets/Wine+Quality}",
+}
+
+@misc{Project3Assignment,
+  title        = "Project 3 Assignment Description",
+  author       = "Department of Physics, University of Oslo, Norway",
+  howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/Projects/2019/Project3/pdf/Project3.pdf}",
+}
+
+@misc{GithubRepo,
+	title = "Project3 github repository",
+	author = "Barstad, Johannes A. and Heitmann, Olve",
+	howpublished ="\url{https://github.com/Barstad/fys_stk3155/tree/master/PROJECT3}",
+}
+@misc{Project2,
+	title = "Project2 github repository",
+	author = "Barstad, Johannes A. and Heitmann, Olve",
+	howpublished ="\url{https://github.com/Barstad/fys_stk3155/tree/master/PROJECT2}",
+}
+
+@misc{Project1,
+	title = "Project1 github repository",
+	author = "Barstad, Johannes A. and Heitmann, Olve",
+	howpublished ="\url{https://github.com/Barstad/fys_stk3155/tree/master/PROJECT1}",
+}
+
+
+@misc{UCImlRepoCCdata,
+	title = "UCI Machine Learning Repository - Default of Credit Card Clients Data Set",
+	author = "USGS",
+	howpublished = "\url{https://earthexplorer.usgs.gov/}",
+}
+
+@misc{LectureNotesOptGradientMethods,
+	title = "Data Analysis and Machine Learning Lectures: Optimization and Gradient Methods",
+	author = "Morten Hjorth-Jensen",
+	howpublished = "\url{https://compphysics.github.io/MachineLearning/doc/pub/Splines/html/._Splines-bs000.html}",
+}
+
+
+@misc{useGradientBoosting,
+	title = "Data-driven Advice for Applying Machine Learning to Bioinformatics Problems",
+	author = "Olson, R.S., La Cava, W., Mustahsan, Z., Varik, A., and Moore, J.H.",
+	year = "2018"
+	howpublished = "\url{https://arxiv.org/abs/1708.05070}",
+}
+
+@misc{doWeNeed,
+	title = "Do we Need Hundreds of Classifiers to Solve Real World
+	Classification Problems?",
+	author = "Fernández-Delgado, M., Cernadas, E., Barro, S.",
+	year = "2014",
+	howpublished="\url{http://jmlr.csail.mit.edu/papers/volume15/delgado14a/delgado14a.pdf}",
+}
+	
+@misc{LectDT,
+	title = "Data Analysis and Machine Learning: From Decision Trees to Forests and all that",
+	author = "Hjorth-Jensen, M.",
+	year = "2019",
+	howpublished ="\url{https://compphysics.github.io/MachineLearning/doc/pub/DecisionTrees/html/DecisionTrees.html}",
+}
+
+@book{ElementsOfStatLearning,
+	author = "Hastie, Trevor, and Tibshirani, Robert, and H. Friedman, Jerome",
+	title = "The Elements of Statistical Learning",
+	year = "2008",
+	publisher = "Springer",
+}
+
+
+@misc{explAIgbm,
+	title = "Gradient boosting: Distance to target",
+	author = "Parr, T., Howard, J.",
+	howpublished ="\url{https://explained.ai/gradient-boosting/L2-loss.html}",
+}
+
+@misc{explAIproof,
+	title = "Gradient boosting performs gradient descent",
+	author = "PArr, T., Howard, J.",
+	howpublished ="\url{https://explained.ai/gradient-boosting/descent.html}",
+}
+
+@misc{ceoKaggle,
+	title = "Lessons from 2MM Machine Learning Models, import.io",
+	author "Anthony Goldbloom",
+	year = "2016",
+	howpublished ="\url{https://www.youtube.com/watch?v=GTs5ZQ6XwUM&feature=emb_logo}",
+}
+
+@misc{XGBoost,
+	title = "XGBoost: A Scalable Tree Boosting System,
+	author = "Chen, T., Guestrin, C.",
+	year = "2016",
+	howpublished = "\url{https://arxiv.org/abs/1603.02754}",
+}
+
+\end{filecontents}
+
+% Any configuration that should be done before the end of the preamble:
+\usepackage{hyperref}
+\usepackage{tikz}
+
+%
+%
+%\pgfdeclareimage[width = 7 cm]{LRliftTest}{"results/LR/lift plot for test.png"}
+%\pgfdeclareimage[width = 7 cm]{LRliftTrain}{"results/LR/lift plot for train.png"}
+%\pgfdeclareimage[width = 7 cm]{LRlossDevTraining}{"results/LR/Loss development during training NN.png"}
+%\pgfdeclareimage[width = 7 cm]{LRregAreaRatio}{"results/LR/Regularization effect on area ratio.png"}
+\pgfdeclareimage[width = 8 cm]{xgbgridsearch}{"results/XGBOOST_grid_search_plot.png"}
+\pgfdeclareimage[width = 8 cm]{rfgridsearch}{"results/RF_grid_search_plot.png"}
+
+\pgfdeclareimage[width = 8 cm]{predact}{"results/pred_vs_act.png"}
+\pgfdeclareimage[width = 8 cm]{partialdepvolaci}{"results/partial_dependence_volatile acidity.png"}
+\pgfdeclareimage[width = 8 cm]{partialdepsulph}{"results/partial_dependence_sulphates.png"}
+\pgfdeclareimage[width = 8 cm]{partialdepalc}{"results/partial_dependence_alcohol.png"}
+\pgfdeclareimage[width = 8 cm]{gbmgridsearch}{"results/GBM_grid_search_plot.png"}
+\pgfdeclareimage[width = 8 cm]{featimp}{"results/feature_importance.png"}
+\pgfdeclareimage[width = 8 cm]{varcomp}{"results/rf_basic_variance_comparison.png"}
+
+\hypersetup{colorlinks=true, urlcolor=blue, linkcolor=blue, citecolor=blue}
+
+\begin{document}
+
+%%%%%%%%%%%%
+% Abstract %
+%%%%%%%%%%%%
+
+\twocolumn[
+\begin{@twocolumnfalse}
+	\maketitle
+	\begin{abstract}
+		\abstractText
+		\newline
+		\newline
+	\end{abstract}
+\end{@twocolumnfalse}
+]
+
+%%%%%%%%%%%
+% Article %
+%%%%%%%%%%%
+
+\section{Introduction}
+	\emph{Ensembles of Decision Tree models} and \emph{XGBoost} have dominated online machine learning competitions on structured, tabular data sets as long as Kaggle has been around\cite{ceoKaggle}. \\
+	On the mission to reduce "choice overload" in academic research, \emph{Olson et. al} come to similar conclusions through studying 165 data sets in bio informatics:\\
+		\begin{quote} 
+			\centering 
+				"Although having several readily-available ML algorithm implementations is advantageous to bio informatics researchers seeking to move beyond simple statistics, many researchers experience “choice overload” and find difficulty in selecting the right ML algorithm for their problem at hand." \cite{useGradientBoosting}
+		\end{quote}
+		\begin{quote} 
+			\centering 
+				"The post-hoc test underlines the impressive performance of Gradient Tree Boosting, which significantly outperforms every algorithm except Random Forest at the $p < 0.01$ level." \cite{useGradientBoosting}
+		\end{quote}
+	Both academic and real life evidence clearly promotes these models as offering promising starting points for modeling tasks --- both for classification and regression problems. However, both academic researchers and practitioners alike acknowledge the need to make tests on the actual data set that is subject of interest, as well as dedicating time and resources to tune \emph{hyperparameters}\cite{useGradientBoosting}.\\\\	
+	In this project we aim to study these methods in detail, by implementing a subset of the methods by ourselves, applying them to real data, and then performing analysis focusing on the most characteristic aspects of each method. We have chosen to focus regression problems, and applying our implemented algorithms on the \emph{Wine Quality Data Set}, available through UCI's Machine Learning Repository\cite{dataset}. Predicting wine quality through the use of artificial intelligence and/ or data mining methods have received a lot of attention in popular science the last few years (see e.g. \emph{Artificial Vintelligence: AI Gets Taste of Wine Industry}\cite{vintelligence}), and we thought it would be an interesting data set to study.\\\\
+	In addition to applying our self-developed algorithms to the data, we also apply and analyze \emph{XGBoost}, a specific gradient boosting implementation by Chen, T., and Guestrin, C. \cite{XGBoost}. XGBoost is by many considered one of the leading implementations of these types of methods, and differ from regular gradient boosting machines both by system and hardware optimization and algorithmic enhancements.\\\\
+	In terms of structure of the paper we start of by discussing the most important aspects of the theoretical background for our covered methods, and how they relate (with the exception of the XGBoost algorithm --- for details here we refer to Chen, T. and Guestrin, C.'s paper \cite{XGBoost}). We then move on to briefly discuss where to find our implementations, as well as briefly describing the data set. In the final part we present and discuss our results, as well as presenting a conclusion to which methods performed the best.
+	
+\section{Theory}
+	\myparagraph{Initial comments}
+		This theory section is a summary of what we believe are the most relevant discussions pertaining to our implementation and analysis of Decision Trees, Random Forests, and Gradient Boosted Trees. The section is based upon lecture notes provided in the course \cite{LectDT}, chapter 8, 9, 10 and 15 in Hastie et. al \cite{ElementsOfStatLearning}, and various internet resources --- e.g. \emph{explained.ai}\cite{explAIgbm}.\\
+		As our practical application focuses on a regression problem, we have prioritized elaborating on aspects related to solving regression problems, rather than also including classification issues and attempting to cover the topic exhaustively.\\\\		
+		For the entirety of this section, the training data is assumed to consist of $p$ inputs and a response variable for $N$ observations for the entirety of this section; that is $(x_i, y_i)$ for $i=1,2,\dots,N$ with $x_i=(x_{i1},x_{i2},\dots,x_{ip})$
+	\subsection{Decision Trees}
+		Decision Trees are supervised learning methods used for classification and regression problems. They work by partitioning the feature space into mutually exclusive and collectively exhaustive regions, and making predictions by assigning a certain class or regression value to each region --- every observation that belongs to a given region then receives the same prediction. In this paper we focus on \emph{CART} implementation of trees --- other noteworthy methods include \emph{ID3} and later versions, \emph{C4.5} and, \emph{C5.0}. For a discussion on the main differences see e.g. Hastie et. al. chapter $9$ \cite{ElementsOfStatLearning}.
+		
+		\myparagraph{Overarching architechture}
+		Decision Trees consist of a \emph{root node}, a set of \emph{interior nodes}, and the final \emph{leaf nodes (leaves)}. These entities are connected by a set of \emph{branches}.\\\\
+		The leaf nodes contains the predictions.		
+		
+		\subsubsection{Making predictions and fitting Regression Trees}
+			For regression problems with sum of squared errors loss, predictions are made according to the following procedure: \begin{enumerate}
+				\item Partition the predictor space (i.e. possible values of $x$) into $M$ distinct and non-overlapping regions $R_1, R_2,\dots,R_M$
+				\item Let $c_m$ be the mean of the response values for the training observations in $R_m$ for every observation that falls into the region, i.e. $c_m=ave(y_i|x_i\in R_m)$. Predictions are then made according to the following equation:
+				$$f(x) = \sum_{m=1}^M c_m I(x\in R_m)$$
+				where $I(\cdot)$ denotes the indicator function, returning $1$ when the statement $\cdot$ is true, and $0$ otherwise.
+			\end{enumerate}
+			The quality of fit for a regression tree thus depends solely upon the construction of the regions $R_1,R_2,\dots,R_M$. To ensure easy interpretation these regions are chosen to take the shape of \emph{high dimensional rectangles}, or \emph{boxes}.
+			
+			\myparagraph{Recursive binary splitting}
+				It is generally computationally infeasible to consider every possible partition of the predictor space into $M$ boxes. The common strategy is to take a \emph{greedy}, top-down approach called \emph{recursive binary splitting}. Beginning at the root (top) of the tree, recursive binary splitting works by 
+					\begin{enumerate}
+						\item Selecting a single predictor $x_j$ and a cutpoint $s$ splitting the predictor space into two regions $R_1$, $R_2$, to minimize MSE, that is
+							$$R_1 = \set{x_i|x_j<s}$$
+							$$R_2 = \set{x_i|x_j\geq s}$$
+							$$\min_{x_j, s} \sum_{i:x_i\in R_1} (y_i-c_1)^2 + \sum_{i:x_i\in R_2} (y_i-c_2)^2$$
+						\item Repeating the process within each of the resulting regions, stopping when we reach some stopping criterion, e.g. when each terminal node has fewer than some minimum number of observations
+					\end{enumerate}
+				
+				Binary splitting is preferred over multiway splits as multiway splitting often end up fragmenting the data too quickly, leaving insufficient number of observations the next level down (Hastie et. al, page 311)\cite{ElementsOfStatLearning}.
+			\subsubsection{Pruning Decision Trees}
+				To reduce the probability of \emph{overfitting}, decision trees are typically \emph{pruned}. The fundamental idea is to grow a large tree $T_0$, and then prune it back in order to obtain a sub-tree. This pruning process is done by modifying the cost function with a \emph{complexity penalty}.
+				\myparagraph{Cost complexity pruning}
+					The cost complexity criterion is defined by
+						$$C_{\alpha}(T)=\sum_{m=1}^{\abs{T}}N_m Q_m(T)+\alpha\abs{T}$$
+					where $Q_m (T) = \frac{1}{N_m}\sum_{x_i \in R_m}(y_i-\hat{c_m})^2$, and\\ $N_m=\#\set{x_i\in R_m}$ where $\#\set{\cdot}$ denotes the number of elements in the set where the $\cdot$ condition is true. $\abs{T}$ is the number of terminal nodes of the tree $T$.\\\\
+					
+					The hyper-parameter $\alpha$ controls the trade-off between the sub-tree's complexity and its fit to the training data --- for $\alpha=0$ the criterion is equivalent to the normal loss function, and the solution is the full tree $T_0$. However as we increase $\alpha$ from $0$, branches get pruned from the tree by \emph{weakest link pruning}, and we get a finite sequence of sub-trees containing $T_\alpha$, the tree that minimizes $C_{\alpha}(T)$. In practical applications, hyper-parameters such as $\alpha$ are typically chosen by cross validation and/or grid search when more than one hyper-parameter is involved.
+%					\begin{itemize}
+%						\item Which variables to split upon, in which order
+%						\item The splitting points for the chosen variables
+%						\item The overall topology (shape) the tree should have
+%					\end{itemize}
+					
+
+		
+	\subsection{Ensemble learning methods}
+		\emph{Ensemble learning} is a subset of machine learning methods that is used to enhance the performance of a machine learning model combining several models (learners). Ensemble learning methods consist of two primary sub groups; Sequential Ensemble (Boosting) and Parallel Ensemble (Bagging). In the practical application part of this paper we will implement Random Forest (a form of Parallel Ensemble performed on Decision Trees), and Gradient Boosted Trees (a form of Sequential Ensemble performed on Decision Trees).		
+			\subsubsection{Parallel Ensemble (Bagging)}
+				Bootstrap aggregation, or \emph{Bagging}, is a form of \emph{parallel ensemble } where one use bootstrapping to improve estimates (predictions) by \emph{reducing variance}.\\\\	
+				Bagging works by averaging the prediction of an input $x$ over a collection of models trained on different bootstrap samples, thereby reducing the estimates variance.\\
+				The bagging estimate is defined as 
+					$$\hat{f}_{bag}(x)=\frac{1}{B}\sum_{b=1}^B\hat{f}^{*b}(x)$$ 
+				where $\hat{f}^{*b}(x)$ is the predicted value for $x$ for each model $b=1,2,\dots,B$ trained on the bootstrap samples $Z^{*b}$, $b=1,2,\dots,B$. The bagged estimate will only differ from the estimate attained by the model trained on the entire training set $Z$ when the model function is a nonlinear or adaptive function of the data (Hastie et. al., page 282 \cite{ElementsOfStatLearning}).\\\\
+				Further, for the case of regression and squared loss, bagging can be shown to always improve upon, or attain an equivalent expected error rate as the model trained on the entire training set (Hastie et. al., page 285, equation 8.52 \cite{ElementsOfStatLearning}). Due to nonadditivity this doesn't hold in general for classification under $0-1$ loss, where bagging a good classifier can make it better, and bagging a bad classifier can make it worse. 
+				\myparagraph{Bagging Decision Trees}
+					Decision Trees are good candidates for bagging, as they typically have high variance (i.e. splitting training data into two parts at random and fitting models on both halves often can lead to quite different models). Moreover, as each tree generated in bagging is identically distributed, the expectation of an average of $B$ such trees is the same as the expectation of any one of them. However, when we use bagging on a large number of decision trees, it's no longer possible to represent the model using a single visual decision tree, and some interpretability is lost.
+				
+			\subsubsection{Random Forest}
+				Random Forest improve upon bagged decision trees with a small change that decorrelates the decision trees. Rather than considering the full set of $p$ predictors when making the splits, a random sample of $m$ predictors is chosen as candidates for each splitting point. This helps decorrelating the trees by not having dominating predictors be the top splitting-variables for most of the trees --- and thus in turn making the final predictions less correlated. We used the following algorithm to implement Random Forest in our practical application:
+					\myparagraph{Random Forest Algorithm}
+					\begin{enumerate}
+						\item For $b=1$ to $B$:\begin{enumerate}
+							\item Draw a bootstrap sample $Z*$ of size $N$ from the training data
+							\item Grow a random-forest tree $T_b$ to the bootstrapped data, by recursively repeating the following steps for each terminal node of the tree, until the maximum node size $n_{min}$ is reached \begin{enumerate}
+								\item Select $m$ variables at random from the $p$ variables
+								\item Pick the best variable/split-point among the $m$ selected variables using the CART algorithm described in the sections on decision trees
+								\item Split the node into daughter nodes
+							\end{enumerate}
+						\end{enumerate}
+						\item Output the ensemble of trees $\set{T_b}^N_1$
+					\end{enumerate}
+					To make a prediction at a new point $x$:  $\hat{f}_{rf}^B(x)=\frac{1}{B}\sum_{b=1}^B T_b(x)$\\
+					Typically the hyper-parameter $m$ is set to be $m\approx\sqrt{p}$.
+			\subsubsection{Sequential Ensemble (Boosting)}
+				\myparagraph{Additive modeling}
+				Generally, additive functions can be decomposed into the addition of $M$ sub-functions:
+				$$F_M(x)=f_1(x)+\dots+f_M(x)=\sum_{m=1}^M f_m(x)$$\\\\
+				\emph{Sequential Ensemble}, or \emph{boosting}, is a form of additive modeling where we sequentially apply a weak learning algorithm to repeatedly modified versions of training data, emphasizing the observations with the largest prediction error. We thereby produce a sequence of weak models (learners) $f_m(x), m = 1, 2, \dots, M$. To simplify the analysis, we will here discuss \emph{boosting} in the context of \emph{regression trees} and squared error loss. It can be shown that squared error loss is far less robust than some other loss functions for this purpose (Hastie et. al, page 349\cite{ElementsOfStatLearning}), but due to computational constraints it is still one of the most popular cost functions for regression trees.\\\\				
+				In general, additive modeling can often be done by building the individual $f_m(x)$ terms in parallel and independent of each other, however this is not the case for boosting. Rather, boosting constructs and adds weak models (learners) in a stagewise and greedy fashion, where choosing $f_m(x)$ never alters the previous functions $f_{m-i}$, $i=1,\dots,m-1$.\\				
+				Thus, one could choose to stop adding new models when $F_M(x)$'s performance is good enough, or when further alterations doesn't improve the model. In real life applications $M$ is chosen as a hyper-parameter.
+			\subsubsection{Gradient Boosting Machines}
+				We chose the following algorithm for our implementation of Gradient Boosting Machines (Boosted Trees):				
+				\begin{enumerate}
+					\item Let $F_0(x)=\frac{1}{N}\sum_{i=1}^N y_i$
+					\item For $m=1,2,\dots, M$:
+					\begin{enumerate}
+						\item Let $r_{m-1}=y-F_{m-1}(x)$ be the residual direction vector
+						\item Train regression tree $\delta_m$ on $r_{m-1}$, minimizing squared error
+						\item Set $F_m(x) = F_{m-1}(x) + \eta\delta_m(x)$, where $\eta$ is a hyper-parameter often called the learning rate 
+					\end{enumerate}
+				\end{enumerate}
+				For our practical application we optimized the multiple hyper-parameters through gridsearch and cross validation.\\\\
+				Gradient boosting machines perform optimization techniques from numerical methods called gradient or steepest descent. For a more elaborate discussion, see e.g. explained.ai's article\cite{explAIproof}.
+	
+			\subsubsection{XGBoost}
+			XGBoost have many advantages over the standard GBM implementation\cite{XGBoost}\cite{anavidhya}:
+				\begin{itemize}
+					\item Built in regularization --- lasso and ridge (for a discussion regularization, see our first project\cite{Project1})
+					\item Parallel processing and implementation on \emph{Hadoop} for increased speed
+					\item High flexibility in terms of custom optimization objectives and evaluation criteria
+					\item Built in routine to handle missing data
+					\item A less greedy algorithm for pruning trees, leading to better model fits
+					\item Built in Cross Validation at each iteration
+				\end{itemize}
+			To compare our implementations against the "state of the art" in machine learning, XGBoost was also included in our practical application. We should however note that getting the best possible results from all algorithms, and perhaps especially XGBoost requires a lot of parameter tuning --- thus the comparison might not be entirely apples and apples.
+\section{Practical application}
+	\subsection{Implementation of algorithms}
+		All self-implemented algorithms (Decision Trees, Random Forests, Gradient Boosting Machines) are implemented according to the theory-section in the paper. Further, all source code and an excerpt of the most relevant results are listed on our project github\cite{GithubRepo}.\\\\
+		Our implementation uses variance as the measure of impurity. As speed is important when implementing decision trees due to the large number of calls, we used the form "mean of square - square of mean" of variance in order to be able to make incremental updates to our measure of impurity as we loop through the samples looking for the best splitting threshold. This enables us to avoid an O($n^2$) implementation. Despite this we still have a significantly slower implementation than that of sklearn, and will thus turn to the sklearn implementations for some of this analysis in order to save time, and take advantage of some of the features from their implementations that we have not implemented. A more detailed comparison of our implementations to that of sklearn can be found in our github repo in the \emph{analysis notebook}. We see from our analysis that our decision tree implementation matches that of sklearn, and that our implementation of random forest and GBM mathces in terms of generalization ability. However, the speed of our implementation is much slower compared to that of sklearn.
+	\subsection{Description of data set and studied problem}
+		For our practical application we chose the \emph{Wine Quality Data Set}, available through UCI's Machine Learning Repository\cite{dataset}. The reference contains two data sets, one for predicting the quality of red wine, and one for predicting the quality of white wine. Both wine types are variants of the Portuguese "Vinho Verde" wine. We chose to focus on the set containing data on red wine, which includes a total of $1599$ total instances.
+		\myparagraph{Output variable}
+			The output variable is perceived wine quality, and ranges between $0$ (very bad), and $10$ (very excellent), where each sample observation is based upon at least $3$ evaluations made by wine experts.
+		\myparagraph{Input variables and link to focus areas in the theory section}
+			The data set contains $11$ input variables based on physicochemical tests: \begin{itemize}
+				\item Fixed acidity
+				\item Volatile acidity
+				\item Citric acid
+				\item Residual sugar
+				\item Chlorides
+				\item Free sulfur dioxide
+				\item Total sulfur dioxide
+				\item Density
+				\item pH
+				\item Sulfates
+				\item Alcohol
+			\end{itemize}
+			All the input variables are numeric. We thus did not discuss/analyze specific considerations that need to be addressed when working with categorical inputs for e.g. decision trees (for a discussion, see e.g. Hastie et. al page 310\cite{ElementsOfStatLearning}). Similarly, the data set didn't have any missing predictor values --- discussions pertaining to e.g. decision trees advantageous handling of missing predictor values is thus left out (see e.g. Hastie et. al page 311\cite{ElementsOfStatLearning}).
+		\myparagraph{Commentary on relevance to past research}
+			From our findings, past research on this data set focuses white wine or classifications tasks -- see e.g. Cortez et. al, 2009 \cite{winepaper}. Direct comparison of performance metrics is thus hard --- we thus focus here on comparing the different algorithms we apply to the data against each other, rather than make comparisons across different scientific papers.
+	\subsection{Analysis and results}
+		For our analysis we split the data set into two parts, one for training and one for testing. We use a 60/40 split, as our data set is of limited size and we want our results to be robust. We are interested in comparing the algorithms in terms their ability to generalize to the test set. We also provide some insights into the topic of wine based on our results.
+		\subsubsection{Benefits of bagging over normal Decision Trees}
+			As stated in the theory section, prediction accuracy benefits a lot from ensembling multiple decision trees into a single predictor. To make that clear, we ran an experiment where we fit an increasingly deep tree to the data, and measured the test set performance of that one compared to a random forest using the same tree depth.
+			\myparagraph{Figure1: Comparison of tree depth impact on test $R^2$}
+			\pgfuseimage{varcomp}
+			As we can see from $Figure1$, the test set performance of our decision tree peaks at a depth of 3 and quickly drops of due to overfitting. However, the random forest are able to improve for much longer, and performs well even at a depth of 20. This highlights the benefits of bagging, and how the averaging of many fairly uncorrelated trees (unrelated due to a random subset of features at each split) will take advantage of the central limit theorem to stabilize the final estimate.
+		\subsubsection{Performance effects of optimizing hyper-parameters: Random Forests and GBMs}
+			To examine the effect of the hyper-parameters on model performance, we do a grid search in order to look at how different configurations affects performance. The performance is measured by the test set R-squared. We start by looking into the plot for random forest, where we look at the two most important hyper-parameters, namely the number of trees and the depth of each tree.
+			\myparagraph{Figure2: Optimizing hyper-parameters for Random Forest, effect on test $R^2$}
+			\pgfuseimage{rfgridsearch}
+			We can see a clear trend in this picture, which is in line with what we would expect. The number of trees parameter is not benefiting us as much for shallow trees, as we are not able to take full advantage the diversity and independent predictions we get from the deeper trees. We see a similar picture for small number of deep trees. Here, they seem to overfit and does not perform well. We see the best performance where are able to fit a large number of deep trees. Here we are able to take full advantage of the variability in the predictions and the averaging effect.
+			\myparagraph{Figure3: Optimizing hyper-parameters for GBMs, effect on test $R^2$}
+			\pgfuseimage{gbmgridsearch}
+			Moving on to gradient boosting, we see a different picture. We examine the same hyper-parameters, and see that for deep trees we are getting bad performance. In GBMs we are incrementally updating our prediction based on residuals until we either don't see any additional improvement, or have set some other stopping criteria. Since each prediction is trying to predict the residuals from the model that came before it, a deep tree will always tend to overfit, by trying to learn everything at once and thus make a bad adjustment. What we want is for each step to learn just a small part of the problem. This leads us to see that even a depth of 1 for a large number of trees are performing well. Small incremental adjustments based on only a single predictor, tends to add up to a good performing model overall. We see the best performance from somewhere in between the extremes, with a depth of 3-5 and 20-50 estimators. We did not optimize the learning rate in these experiments, but kept it constant at 0.1.
+		\subsubsection{Overall performance comparison}
+			
+\section{Conclusion}
+	One of the major problems with trees is their high variance --- a small change in the training data can often result in a very different series of splits. This is mitigated by the use of \emph{bagging}, but at the cost of losing the simple, tree-based model structure.
+	
+	The main idea of decision trees is to find those descriptive features which contain the most information regarding the target feature and then split the dataset along the values of these features such that the target feature values for the resulting underlying datasets are as pure as possible.
+	
+	
+	Pros and cons of trees, pros
+	White box, easy to interpret model. Some people believe that decision trees more closely mirror human decision-making than do the regression and classification approaches discussed earlier (think of support vector machines)
+	Trees are very easy to explain to people. In fact, they are even easier to explain than linear regression!
+	No feature normalization needed
+	Tree models can handle both continuous and categorical data (Classification and Regression Trees)
+	Can model nonlinear relationships
+	Can model interactions between the different descriptive features
+	Trees can be displayed graphically, and are easily interpreted even by a non-expert (especially if they are small)
+	
+	Disadvantages
+	Unfortunately, trees generally do not have the same level of predictive accuracy as some of the other regression and classification approaches
+	If continuous features are used the tree may become quite large and hence less interpretable
+	Decision trees are prone to overfit the training data and hence do not well generalize the data if no stopping criteria or improvements like pruning, boosting or bagging are implemented
+	Small changes in the data may lead to a completely different tree. This issue can be addressed by using ensemble methods like bagging, boosting or random forests
+	Unbalanced datasets where some target feature values occur much more frequently than others may lead to biased trees since the frequently occurring feature values are preferred over the less frequently occurring ones.
+	If the number of features is relatively large (high dimensional) and the number of instances is relatively low, the tree might overfit the data
+	Features with many levels may be preferred over features with less levels since for them it is more easy to sp
+	
+\onecolumn
+\section{Appendix}
+	
+\twocolumn
+	
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{Ref9}
+\end{document}
+
+

@@ -1,0 +1,100 @@
+\begin{thebibliography}{10}
+
+\bibitem{ceoKaggle}
+Lessons from 2mm machine learning models, import.io.
+
+\bibitem{XGBoost}
+Xgboost: A scalable tree boosting system, author =.
+
+\bibitem{Project1}
+Johannes~A. Barstad and Olve Heitmann.
+\newblock Project1 github repository.
+\newblock \url{https://github.com/Barstad/fys_stk3155/tree/master/PROJECT1}.
+
+\bibitem{Project2}
+Johannes~A. Barstad and Olve Heitmann.
+\newblock Project2 github repository.
+\newblock \url{https://github.com/Barstad/fys_stk3155/tree/master/PROJECT2}.
+
+\bibitem{GithubRepo}
+Johannes~A. Barstad and Olve Heitmann.
+\newblock Project3 github repository.
+\newblock \url{https://github.com/Barstad/fys_stk3155/tree/master/PROJECT3}.
+
+\bibitem{dataset}
+Cerdeira A. Almeida F.~Matos Cortez, P. and J.~T., Reis.
+\newblock Wine quality data set.
+\newblock \url{https://archive.ics.uci.edu/ml/datasets/Wine+Quality}.
+
+\bibitem{winepaper}
+Cerdeira A. Almeida F.~Matos Cortez, P. and J.~T., Reis.
+\newblock Modeling wine preferences from physicochemical properties using fuzzy
+  techniques.
+\newblock \url{https://www.scitepress.org/Papers/2015/55519/55519.pdf}, 2009.
+
+\bibitem{Project3Assignment}
+Norway Department~of Physics, University of~Oslo.
+\newblock Project 3 assignment description.
+\newblock
+  \url{https://compphysics.github.io/MachineLearning/doc/Projects/2019/Project3/pdf/Project3.pdf}.
+
+\bibitem{doWeNeed}
+Cernadas E. Barro~S. Fernández-Delgado, M.
+\newblock Do we need hundreds of classifiers to solve real world classification
+  problems?
+\newblock
+  \url{http://jmlr.csail.mit.edu/papers/volume15/delgado14a/delgado14a.pdf},
+  2014.
+
+\bibitem{ElementsOfStatLearning}
+Trevor Hastie, Robert Tibshirani, and Jerome H.~Friedman.
+\newblock {\em The Elements of Statistical Learning}.
+\newblock Springer, 2008.
+
+\bibitem{LectDT}
+M.~Hjorth-Jensen.
+\newblock Data analysis and machine learning: From decision trees to forests
+  and all that.
+\newblock
+  \url{https://compphysics.github.io/MachineLearning/doc/pub/DecisionTrees/html/DecisionTrees.html},
+  2019.
+
+\bibitem{LectureNotesOptGradientMethods}
+Morten Hjorth-Jensen.
+\newblock Data analysis and machine learning lectures: Optimization and
+  gradient methods.
+\newblock
+  \url{https://compphysics.github.io/MachineLearning/doc/pub/Splines/html/._Splines-bs000.html}.
+
+\bibitem{anavidhya}
+A.~Jain.
+\newblock Complete guide to parameter tuning in xgboost with codes in python,
+  2016.
+
+\bibitem{useGradientBoosting}
+La~Cava W. Mustahsan Z. Varik~A. Olson, R.S. and J.H. Moore.
+\newblock Data-driven advice for applying machine learning to bioinformatics
+  problems, 2018.
+
+\bibitem{explAIgbm}
+Howard~J. Parr, T.
+\newblock Gradient boosting: Distance to target.
+\newblock \url{https://explained.ai/gradient-boosting/L2-loss.html}.
+
+\bibitem{explAIproof}
+Howard~J. PArr, T.
+\newblock Gradient boosting performs gradient descent.
+\newblock \url{https://explained.ai/gradient-boosting/descent.html}.
+
+\bibitem{UCImlRepoCCdata}
+USGS.
+\newblock Uci machine learning repository - default of credit card clients data
+  set.
+\newblock \url{https://earthexplorer.usgs.gov/}.
+
+\bibitem{vintelligence}
+Tivon Von~Vivo.
+\newblock Artificial vintelligence: Ai gets taste of wine industry.
+\newblock \url{https://vonvino.com/artificial-intelligence/}, 2018.
+
+\end{thebibliography}

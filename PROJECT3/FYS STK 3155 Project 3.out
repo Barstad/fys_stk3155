@@ -1,0 +1,19 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Theory}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Decision Trees}{section.2}% 3
+\BOOKMARK [3][-]{subsubsection.2.1.1}{Making predictions and fitting Regression Trees}{subsection.2.1}% 4
+\BOOKMARK [3][-]{subsubsection.2.1.2}{Pruning Decision Trees}{subsection.2.1}% 5
+\BOOKMARK [2][-]{subsection.2.2}{Ensemble learning methods}{section.2}% 6
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Parallel Ensemble \(Bagging\)}{subsection.2.2}% 7
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Random Forest}{subsection.2.2}% 8
+\BOOKMARK [3][-]{subsubsection.2.2.3}{Sequential Ensemble \(Boosting\)}{subsection.2.2}% 9
+\BOOKMARK [3][-]{subsubsection.2.2.4}{Gradient Boosting Machines}{subsection.2.2}% 10
+\BOOKMARK [3][-]{subsubsection.2.2.5}{XGBoost}{subsection.2.2}% 11
+\BOOKMARK [1][-]{section.3}{Practical application}{}% 12
+\BOOKMARK [2][-]{subsection.3.1}{Implementation of algorithms}{section.3}% 13
+\BOOKMARK [2][-]{subsection.3.2}{Description of data set and studied problem}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.3}{Analysis and results}{section.3}% 15
+\BOOKMARK [3][-]{subsubsection.3.3.1}{Benefits of bagging over normal Decision Trees}{subsection.3.3}% 16
+\BOOKMARK [3][-]{subsubsection.3.3.2}{Performance effects of optimizing hyper-parameters: Random Forests and GBMs}{subsection.3.3}% 17
+\BOOKMARK [1][-]{section.4}{Conclusion}{}% 18
+\BOOKMARK [1][-]{section.5}{Appendix}{}% 19
