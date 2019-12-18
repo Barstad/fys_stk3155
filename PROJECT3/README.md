@@ -10,5 +10,6 @@ FYS STK 3155 Project 3.pdf
 ### Our implementation of decision trees, random forest and gradient boosted trees:
 Tree.py
 
-### Our analysis is in:
+### Our analysis of the algoritms, dataset and comparison of our implementations with that of sklearn:
 analysis.ipynb
+
