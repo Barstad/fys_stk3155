@@ -1,14 +1,14 @@
 Authors:
-Johannes Barstad
-Olve Heitmann
+* Johannes Barstad
+* Olve Heitmann
 
 # Project 3 in fys_stk3155
 
-* Our final report:
+### Our final report:
 FYS STK 3155 Project 3.pdf
 
-* Our implementation of decision trees, random forest and gradient boosted trees:
+### Our implementation of decision trees, random forest and gradient boosted trees:
 Tree.py
 
-* Our analysis is in:
+### Our analysis is in:
 analysis.ipynb
