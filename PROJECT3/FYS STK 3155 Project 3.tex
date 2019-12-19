@@ -35,11 +35,31 @@ The project deals with implementation, application, and discussion/ consideratio
 
 \DeclarePairedDelimiter\set\{\}
 
-\begin{filecontents}{Ref10.bib}
+\begin{filecontents}{Ref11.bib}
+
+@misc{wine1,
+	title = "Rising Alcohol Levels: How Winemakers are Adjusting",
+	year = "2017",
+	author = "Case, J.H."
+	howpublished = "\url{https://christophm.github.io/interpretable-ml-book/index.html"},
+}
+@misc{wine2,
+title = "Sulfites in Your Wine: To Savor or Shun?",
+year = "2014",
+author = "Sawy, W."
+howpublished = "\url{https://daily.sevenfifty.com/taking-control-of-alcohol-levels-in-wine/"},
+}
+@misc{wine3,
+title = "Winemaker’s tip: avoid volatile acidity",
+year = "2016",
+author = "Holman, C."
+howpublished = "\url{https://www.rjscraftwinemaking.com/craft-and-cork/winemakers-tip-avoid-volatile-acidity/"},
+}
+
 @misc{chris,
 	title = "Interpretable Machine Learning: A Guide for Making Black Box Models Explainable",
 	year = "2019",
-	author = "Christoph Molnar"
+	author = "Molnar, C."
 	howpublished = "\url{https://christophm.github.io/interpretable-ml-book/index.html"},
 }
 
@@ -333,7 +353,7 @@ The project deals with implementation, application, and discussion/ consideratio
 \section{Practical application}
 	\subsection{Implementation of algorithms}
 		All self-implemented algorithms (Decision Trees, Random Forests, Gradient Boosting Machines) are implemented according to the theory-section in the paper. Further, all source code and an excerpt of the most relevant results are listed on our project github\cite{GithubRepo}.\\\\
-		Our implementation uses variance as the measure of impurity. As speed is important when implementing decision trees due to the large number of calls, we used the form "mean of square - square of mean" of variance in order to be able to make incremental updates to our measure of impurity as we loop through the samples looking for the best splitting threshold. This enables us to avoid an O($n^2$) implementation. Despite this we still have a significantly slower implementation than that of sklearn, and will thus turn to the sklearn implementations for some of this analysis in order to save time, and take advantage of some of the features from their implementations that we have not implemented. A more detailed comparison of our implementations to that of sklearn can be found in our github repo in the \emph{analysis notebook}. We see from our analysis that our decision tree implementation matches that of sklearn, and that our implementation of random forest and GBM mathces in terms of generalization ability. However, the speed of our implementation is much slower compared to that of sklearn.
+		Our implementation uses variance as the measure of impurity. As speed is important when implementing decision trees due to the large number of calls, we used the form $\frac{\sum x^2}{n}-\bar{x}^2$ of variance in order to be able to make incremental updates to our measure of impurity as we loop through the samples looking for the best splitting threshold. This enables us to avoid an O($n^2$) implementation. Despite this we still have a significantly slower implementation than that of sklearn, and will thus turn to the sklearn implementations for some of this analysis in order to save time, and take advantage of some of the features from their implementations that we have not implemented. A more detailed comparison of our implementations to that of sklearn can be found in our github repo in the \emph{analysis notebook}. We see from our analysis that our decision tree implementation matches that of sklearn, and that our implementation of random forest and GBM mathces in terms of generalization ability. However, the speed of our implementation is much slower compared to that of sklearn.
 	\subsection{Description of data set and studied problem}
 		For our practical application we chose the \emph{Wine Quality Data Set}, available through UCI's Machine Learning Repository\cite{dataset}. The reference contains two data sets, one for predicting the quality of red wine, and one for predicting the quality of white wine. Both wine types are variants of the Portuguese "Vinho Verde" wine. We chose to focus on the set containing data on red wine, which includes a total of $1599$ total instances.
 		\myparagraph{Output variable}
@@ -470,6 +490,8 @@ The project deals with implementation, application, and discussion/ consideratio
 		\item Optimized boosting algorithms such as XGBoost are however able to run/ compute very fast
 	\end{itemize}
 	\subsection{Final conclusion}
+		Given our findings, we see that a higher alcohol level tend to lead to higher quality scores. Thus, the timing of the harvest is critical as riper grapes should lead to higher levels of alcohol. As seen from the analysis, a level of 12 seems to be a good level. Volatile acidity is important to keep to a low level. The most common source is from contaminated equipment, so hygiene and proper equipment is at the essence. Sulphite is naturally occuring during the process of fermentation, and is often added in addition as a preservative. We see that a level of 0.7 is healthy for achieving a high quality.\cite{wine1}\cite{wine2}\cite{wine3}\\\\
+		
 		In terms of prediction accuracy (test $R^2$), Random Forest performed the best out of the tested algorithms. We are also able to get a reasonable impression of the various features importance from the algorithm. As discussed in the introduction and theory section, these properties remain true for most data sets --- ensembles of decision trees generally tend to have high prediction accuracy. For use cases where you know your training data isn't representative for the various test cases, and extrapolation will be needed, other algorithms than decision tree-based ones should probably be considered due to decision trees lack of ability to extrapolate.\\\\
 		As a wise man once said, there are two kind of algorithms:\begin{enumerate}
 			\item Those that can extrapolate from incomplete data
@@ -485,7 +507,7 @@ The project deals with implementation, application, and discussion/ consideratio
 	
 \nocite{*}
 \bibliographystyle{plain}
-\bibliography{Ref10}
+\bibliography{Ref11}
 \end{document}
 
 
