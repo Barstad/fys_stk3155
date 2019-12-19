@@ -1,0 +1,127 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: FYS STK 3155 Project 3.aux
+The style file: plain.bst
+Database file #1: Ref10.bib
+I was expecting a `,' or a `}'---line 9 of file Ref10.bib
+ :  
+ :  howpublished = "\url{https://christophm.github.io/interpretable-ml-book/index.html"},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Unbalanced braces---line 16 of file Ref10.bib
+ : 
+ : }
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Unbalanced braces---line 24 of file Ref10.bib
+ : 
+ : }
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 88 of file Ref10.bib
+ :  
+ :  howpublished = "\url{https://arxiv.org/abs/1708.05070}",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting an "="---line 128 of file Ref10.bib
+ :  author 
+ :         "Anthony Goldbloom",
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 135 of file Ref10.bib
+ :  author = "
+ :            Chen, T., Guestrin, C.",
+I'm skipping whatever remains of this entry
+Warning--to sort, need author or key in ceoKaggle
+Name 1 in "Olson, R.S., La Cava, W., Mustahsan, Z., Varik, A., and Moore, J.H." has a comma at the end for entry useGradientBoosting
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Olson, R.S., La Cava, W., Mustahsan, Z., Varik, A., and Moore, J.H." for entry useGradientBoosting
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Olson, R.S., La Cava, W., Mustahsan, Z., Varik, A., and Moore, J.H." for entry useGradientBoosting
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Olson, R.S., La Cava, W., Mustahsan, Z., Varik, A., and Moore, J.H." for entry useGradientBoosting
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Olson, R.S., La Cava, W., Mustahsan, Z., Varik, A., and Moore, J.H." for entry useGradientBoosting
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Olson, R.S., La Cava, W., Mustahsan, Z., Varik, A., and Moore, J.H." for entry useGradientBoosting
+while executing---line 1049 of file plain.bst
+Name 1 in "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." has a comma at the end for entry dataset
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." for entry dataset
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." for entry dataset
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." for entry dataset
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." for entry dataset
+while executing---line 1049 of file plain.bst
+Warning--to sort, need author or key in XGBoost
+Name 1 in "Hastie, Trevor, and Tibshirani, Robert, and H. Friedman, Jerome" has a comma at the end for entry ElementsOfStatLearning
+while executing---line 1049 of file plain.bst
+Name 2 in "Hastie, Trevor, and Tibshirani, Robert, and H. Friedman, Jerome" has a comma at the end for entry ElementsOfStatLearning
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Parr, T., Howard, J." for entry explAIgbm
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "PArr, T., Howard, J." for entry explAIproof
+while executing---line 1049 of file plain.bst
+Name 1 in "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." has a comma at the end for entry winepaper
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." for entry winepaper
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." for entry winepaper
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." for entry winepaper
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." for entry winepaper
+while executing---line 1049 of file plain.bst
+Warning--to sort, need author or key in stackOFfeatimp
+Too many commas in name 1 of "Fernández-Delgado, M., Cernadas, E., Barro, S." for entry doWeNeed
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Fernández-Delgado, M., Cernadas, E., Barro, S." for entry doWeNeed
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Fernández-Delgado, M., Cernadas, E., Barro, S." for entry doWeNeed
+while executing---line 1049 of file plain.bst
+Name 1 in "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." has a comma at the end for entry dataset
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." for entry dataset
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." for entry dataset
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." for entry dataset
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." for entry dataset
+while executing---line 1090 of file plain.bst
+Name 1 in "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." has a comma at the end for entry winepaper
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." for entry winepaper
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." for entry winepaper
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." for entry winepaper
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Cortez, P., Cerdeira, A., Almeida, F., Matos, and T., Reis, J." for entry winepaper
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Fernández-Delgado, M., Cernadas, E., Barro, S." for entry doWeNeed
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Fernández-Delgado, M., Cernadas, E., Barro, S." for entry doWeNeed
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Fernández-Delgado, M., Cernadas, E., Barro, S." for entry doWeNeed
+while executing---line 1090 of file plain.bst
+Name 1 in "Hastie, Trevor, and Tibshirani, Robert, and H. Friedman, Jerome" has a comma at the end for entry ElementsOfStatLearning
+while executing---line 1090 of file plain.bst
+Name 2 in "Hastie, Trevor, and Tibshirani, Robert, and H. Friedman, Jerome" has a comma at the end for entry ElementsOfStatLearning
+while executing---line 1090 of file plain.bst
+Name 1 in "Olson, R.S., La Cava, W., Mustahsan, Z., Varik, A., and Moore, J.H." has a comma at the end for entry useGradientBoosting
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Olson, R.S., La Cava, W., Mustahsan, Z., Varik, A., and Moore, J.H." for entry useGradientBoosting
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Olson, R.S., La Cava, W., Mustahsan, Z., Varik, A., and Moore, J.H." for entry useGradientBoosting
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Olson, R.S., La Cava, W., Mustahsan, Z., Varik, A., and Moore, J.H." for entry useGradientBoosting
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Olson, R.S., La Cava, W., Mustahsan, Z., Varik, A., and Moore, J.H." for entry useGradientBoosting
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Olson, R.S., La Cava, W., Mustahsan, Z., Varik, A., and Moore, J.H." for entry useGradientBoosting
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "Parr, T., Howard, J." for entry explAIgbm
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "PArr, T., Howard, J." for entry explAIproof
+while executing---line 1090 of file plain.bst
+(There were 52 error messages)

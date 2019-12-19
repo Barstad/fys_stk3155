@@ -1,5 +1,8 @@
 \begin{thebibliography}{10}
 
+\bibitem{stackOFfeatimp}
+How are feature importances in randomforestclassifier determined?
+
 \bibitem{ceoKaggle}
 Lessons from 2mm machine learning models, import.io.
 
@@ -70,6 +73,11 @@ Morten Hjorth-Jensen.
 A.~Jain.
 \newblock Complete guide to parameter tuning in xgboost with codes in python,
   2016.
+
+\bibitem{chris}
+Christoph Molnar.
+\newblock Interpretable machine learning: A guide for making black box models
+  explainable, 2019.
 
 \bibitem{useGradientBoosting}
 La~Cava W. Mustahsan Z. Varik~A. Olson, R.S. and J.H. Moore.
