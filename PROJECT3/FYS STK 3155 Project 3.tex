@@ -407,8 +407,8 @@ The project deals with implementation, application, and discussion/ consideratio
 			
 			We see some clear patterns in these plots. "Alcohol" seems to have a positive impact on wine quality, where a level of 12 or more seems to be better, while a level below 10 seems to worse. For "Sulphates", we see that increased level up to a point around 0.7 is associated with higher quality. "Volitile acidity" has a negative impact on quality after a level of 0.3, with a fairly linear negative trend.
 			
-\section{Conclusion}
-	\subsection{Algorithm evaluations}
+\section{Algorithm evaluation and conclusion}
+	\subsection{Algorithm evaluation}
 	Decision trees in isolation are not a good way of making predictions, due to its high variance. By circumventing this issue, with boosting or bagging, decision trees are one of the best algoritms in data science in terms of predicitive power and practical use. Here are some pros and cons for decision tree based algorithms.
 	
 	\subsubsection{Pros}
@@ -469,6 +469,13 @@ The project deals with implementation, application, and discussion/ consideratio
 		\item Random forest can tend to take up a lot of memory as the data size increases and we need more trees to make good predictions
 		\item Optimized boosting algorithms such as XGBoost are however able to run/ compute very fast
 	\end{itemize}
+	\subsection{Final conclusion}
+		In terms of prediction accuracy (test $R^2$), Random Forest performed the best out of the tested algorithms. We are also able to get a reasonable impression of the various features importance from the algorithm. As discussed in the introduction and theory section, these properties remain true for most data sets --- ensembles of decision trees generally tend to have high prediction accuracy. For use cases where you know your training data isn't representative for the various test cases, and extrapolation will be needed, other algorithms than decision tree-based ones should probably be considered due to decision trees lack of ability to extrapolate.\\\\
+		As a wise man once said, there are two kind of algorithms:\begin{enumerate}
+			\item Those that can extrapolate from incomplete data
+			\item  
+		\end{enumerate}
+
 
 	
 \onecolumn
